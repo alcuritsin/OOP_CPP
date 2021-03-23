@@ -1,6 +1,5 @@
-﻿[wiki](https://github.com/alcuritsin/OOP_CPP/wiki)
-
-[TOC]
+﻿###### [wiki](https://github.com/alcuritsin/OOP_CPP/wiki) ######
+###### [TODO](https://github.com/alcuritsin/OOP_CPP/blob/master/TODO.md) ######
 
 # Введение в ООП. #
 ###### 2021.03.17 ######
