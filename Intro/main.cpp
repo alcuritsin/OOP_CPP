@@ -95,13 +95,20 @@ public:
 	double distance (const Point& other) const
 	{
 		// В классе Point реализовать МЕТОД ??? distance(???), который возвращает расстояние до указанной точки; --DONE
-		//#1
+		//issues #1
+		/*before optimization
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
 		double ditance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+		return ditance;
+		*/
+
+		//Оптимизировать метод и функцию distance до одной строки кода
+		//after optimization
+		return sqrt(pow(this->x - other.x, 2) + pow(this->y - other.y, 2));
 		//sqrt - Square Root (Квадратный корень)
 		//pov - Power (возведение в степень)
-		return ditance;
+		
 	}
 };
 //	Создовая структуру или класс, мы создаём новый тип данных.
@@ -202,6 +209,7 @@ double distance(const Point& A, const Point& B)
 	A(Xa;Ya)	B(Xb:Yb)
 	|AB| = sqrt ( (Xa - Xb)^2 + (Ya - Yb)^2 );
 */
+	//optimization done
 	return sqrt(pow(A.get_x() - B.get_x(), 2) + pow((A.get_y() - B.get_y()), 2));
 }
 
