@@ -1,4 +1,6 @@
-﻿###### [wiki](https://github.com/alcuritsin/OOP_CPP/wiki) ######
+﻿![OOP_on_CPP](/images/OOP_CPP_git.png)
+
+###### [wiki](https://github.com/alcuritsin/OOP_CPP/wiki) ######
 ###### [TODO](https://github.com/alcuritsin/OOP_CPP/blob/master/TODO.md) ######
 
 # Введение в ООП. #
