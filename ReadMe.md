@@ -1,7 +1,7 @@
 ﻿![OOP_on_CPP](/images/OOP_CPP_git.png)
 
-###### [wiki](https://github.com/alcuritsin/OOP_CPP/wiki) ######
-###### [TODO](TODO.md) ######
+###### [Wiki](wiki) ######
+###### [Todo](ToDo.md) ######
 
 ---
 
@@ -202,3 +202,5 @@ GET и SET методов в классе должно быть ровно ст�
 ###### 2021.03.22 ######
 [repos\Intro\main.cpp](/Intro/main.cpp)
 
+
+[Me]: <https://github.com/alcuritsin/OOP_CPP/ReadMe.md>
