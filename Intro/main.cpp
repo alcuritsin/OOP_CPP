@@ -2,7 +2,8 @@
 #include <cmath> // для функции sqrt, pow
 
 //#define INTRO
-#define CONSTRUCTORS
+//#define CONSTRUCTORS
+#define DISTANCE_HW
 
 //Создание структуры.
 //struct Point
@@ -13,11 +14,11 @@ class Point
 	double y; //Координата по Y
 
 public:
-	double get_x()
+	double get_x() const
 	{
 		return x;
 	}
-	double get_y()
+	double get_y() const
 	{
 		return y;
 	}
@@ -31,20 +32,59 @@ public:
 	}
 
 	// Constructors
-	Point()
+	/*Point()
 	{
-		x = y = 0;
+		// Конструктор создаёт точку в начале координать.
+		x = y = int(); //Якобы вызываем конструктор для `int` и он возвращает значение по умолчанию для `int`
 		std::cout << "DefaultConstructor: \t" << this << std::endl;
 	}
-	Point(double x, double y)
+
+	Point(double x)
 	{
+		// Конструктор с одним параметром создаёт точку на прямой.
 		this->x = x;
 		this->y = 0;
-		std::cout << "Constructor: \t" << this << std::endl;
+		std::cout << "Singl argument constructor: \t" << this << std::endl;
 	}
+
+	Point(double x, double y)
+	{
+		// Конструктор с параметроми создаёт точку на плоскости.
+		this->x = x;
+		this->y = y;
+		std::cout << "Constructor: \t\t" << this << std::endl;
+	}*/
+	Point(double x = 0, double y = 0)
+	{
+		//Этот конструктор с параметрами может быть вызван 
+		// - без параметров
+		// - с одним параметром
+		// - с двумя параметрами
+
+		this->x = x;
+		this->y = y;
+		std::cout << "Constructor:\t\t" << this << std::endl;
+	}
+
+	Point(const Point& other)
+	{
+		//other - это другой объект копию, которого мы создам
+		this->x = other.x;
+		this->y = other.y;
+		std::cout << "CopyAssignment:\t\t" << this << std::endl;
+	}
+
 	~Point()
 	{
-		std::cout << "Destructor: \t" << this << std::endl;
+		std::cout << "Destructor: \t\t" << this << std::endl;
+	}
+
+	// Operartors
+	void operator = (const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		std::cout << "CopyAssignment:\t\t" << this << std::endl;
 	}
 
 	// Metods
@@ -52,10 +92,23 @@ public:
 	{
 		std::cout << "X = " << x << "\tY = " << y << std::endl;
 	}
-	double distance(double x, double y)
+	double distance (const Point& other) const
 	{
 		// В классе Point реализовать МЕТОД ??? distance(???), который возвращает расстояние до указанной точки; --DONE
-		return sqrt(pow((x - this->x), 2) + pow((y - this->y), 2));
+		//issues #1
+		/*before optimization
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double ditance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+		return ditance;
+		*/
+
+		//Оптимизировать метод и функцию distance до одной строки кода
+		//after optimization
+		return sqrt(pow(this->x - other.x, 2) + pow(this->y - other.y, 2));
+		//sqrt - Square Root (Квадратный корень)
+		//pov - Power (возведение в степень)
+		
 	}
 };
 //	Создовая структуру или класс, мы создаём новый тип данных.
@@ -67,7 +120,7 @@ public:
 //	Структура	- это тип данных.
 //	Объект		- это обычная переменная.
 
-double distance(Point* A, Point* B); //Реализовать функцию ??? distance(???), которая возвращает расстояние между двумя точками 
+double distance(const Point& A, const Point& B); //Реализовать функцию ??? distance(???), которая возвращает расстояние между двумя точками 
 
 void main()
 {
@@ -89,28 +142,47 @@ void main()
 #endif // INTRO
 
 #ifdef CONSTRUCTORS
-	Point A; //Default constructor
+	Point A;		//Default constructor
 	std::cout << "point A (" << A.get_x() << ", " << A.get_y() << ")" << std::endl;
 
+	Point B = 5;	//Singl argument constructor
+	B.print();
+	Point C(5);		//Singl argument constructor
+	C.print();
+	Point D{ 5 };	//Singl argument constructor
+	D.print();
 
-	Point B (5,0);
+	Point E (5,3);	// Параметризированный конструктор
 	std::cout << "point B" << std::endl;
+	E.print();
+
+	Point F = E; //CopyConstructor. Здесть мы создаём объект X, и инициализируем его другим объектом.
+	F.print();
+
+	Point G;
+	G = F;	//CopyAssignment
+	G.print();
+
+#endif // CONSTRUCTORS
+
+#ifdef DISTANCE_HW
+
+	std::cout << "# Расстояние до указанной точки #\n";
+
+	Point A(2, 3);
+	Point B(4, 5);
+
+	A.print();
 	B.print();
 
-	std::cout << "# Расстояние до указанной точки #";
-	double x = 0;  double y = 0;
-
-	std::cout << "\nВведите координаты точки:\n";
-	std::cout << "x = "; std::cin >> x;
-	std::cout << "y = "; std::cin >> y;
-		
-	std::cout << "Distance to the point 'A'  = " << A.distance(x, y) << std::endl;
-	std::cout << "Distance to the point 'B'  = " << B.distance(x, y) << std::endl;
-
+	std::cout << "Distance to the point 'AB'  = " << A.distance(B) << std::endl;
 
 	std::cout << "\n# Возвращает расстояние между двумя точками #\n";
-	double Xc, Yc; //Координаты точки C
-	double Xd, Yd; //Координаты точки D
+	std::cout << "Distance to the point 'AB'  = " << distance(A,B) << std::endl;
+
+	/*
+	double Xc = 2, Yc = 3; //Координаты точки C
+	double Xd = 4, Yd = 5; //Координаты точки D
 
 	std::cout << "Input point C\n";
 	std::cout << "Xc = "; std::cin >> Xc;
@@ -122,19 +194,23 @@ void main()
 	Point C(Xc, Yc);	//Constructor C
 	Point D(Xd, Yd);	//Construktor D
 
-	std::cout << "Distance CD = " << distance(&C, &D);
+	std::cout << "Distance CD = " << distance(C, D) << std::endl;
+	*/
 
-#endif // CONSTRUCTORS
+
+#endif // DISTANCE_HW
+
 }
 
-double distance(Point* A, Point* B)
+double distance(const Point& A, const Point& B)
 {
 	//Реализовать функцию ??? distance(???), которая возвращает расстояние между двумя точками --DONE
 /*
 	A(Xa;Ya)	B(Xb:Yb)
 	|AB| = sqrt ( (Xa - Xb)^2 + (Ya - Yb)^2 );
 */
-	return sqrt(pow(A->get_x() - B->get_x(), 2) + pow((A->get_x() - B->get_y()), 2));
+	//optimization done
+	return sqrt(pow(A.get_x() - B.get_x(), 2) + pow((A.get_y() - B.get_y()), 2));
 }
 
 //Исполнитель
