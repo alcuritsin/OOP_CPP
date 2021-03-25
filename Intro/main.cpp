@@ -4,9 +4,14 @@
 //#define INTRO
 //#define CONSTRUCTORS
 //#define DISTANCE_HW
-//#define OPERATOR_EXEMPLES
+//#define ASSIGNMENT_CHECK
 
-#define ASSIGNMENT_CHECK
+//HW - Operartors `+`, `-`, `*`, `/`
+#define OPERATOR_OVERLOADS	//	Homework 2021/03/25
+//#define ADDITIS_OVER		//	Перегрузка `+`
+//#define SUBTRACTION_OVER	//	Перегрузка `-`
+//#define MULTIPLICATIO_OVER	//	Перегрузка `*`
+#define DIVISIO_OVER		//	Перегрузка `/`
 
 //Создание структуры.
 //struct Point
@@ -35,28 +40,6 @@ public:
 	}
 
 	// Constructors
-	/*Point()
-	{
-		// Конструктор создаёт точку в начале координать.
-		x = y = int(); //Якобы вызываем конструктор для `int` и он возвращает значение по умолчанию для `int`
-		std::cout << "DefaultConstructor: \t" << this << std::endl;
-	}
-
-	Point(double x)
-	{
-		// Конструктор с одним параметром создаёт точку на прямой.
-		this->x = x;
-		this->y = 0;
-		std::cout << "Singl argument constructor: \t" << this << std::endl;
-	}
-
-	Point(double x, double y)
-	{
-		// Конструктор с параметроми создаёт точку на плоскости.
-		this->x = x;
-		this->y = y;
-		std::cout << "Constructor: \t\t" << this << std::endl;
-	}*/
 	Point(double x = 0, double y = 0)
 	{
 		//Этот конструктор с параметрами может быть вызван 
@@ -91,6 +74,29 @@ public:
 		return *this;
 	}
 
+	Point operator + (const Point& other) const
+	{
+		Point C(this->x + other.x, this->y + other.y);	//Создаём объект `C` с результатом операции
+		return C; //Возвращаем объект `C` на место вызова
+	}
+
+	Point operator - (const Point& other) const
+	{
+		Point C(this->x - other.x, this->y - other.y);	//Создаём объект `C` с результатом операции
+		return C; //Возвращаем объект `C` на место вызова
+	}
+
+	Point operator * (const Point& other) const
+	{
+		Point C(this->x * other.x, this->y * other.y);	//Создаём объект `C` с результатом операции
+		return C; //Возвращаем объект `C` на место вызова
+	}
+	Point operator / (const Point& other) const
+	{
+		Point C((other.x != 0 ? this->x / other.x : 0), (other.y != 0 ? this->y / other.y : 0));	//Создаём объект `C` с результатом операции
+		return C; //Возвращаем объект `C` на место вызова
+	}
+
 	// Metods
 	void print()
 	{
@@ -100,29 +106,11 @@ public:
 	{
 		// В классе Point реализовать МЕТОД ??? distance(???), который возвращает расстояние до указанной точки; --DONE
 		//issues #1
-		/*before optimization
-		double x_distance = this->x - other.x;
-		double y_distance = this->y - other.y;
-		double ditance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
-		return ditance;
-		*/
-
-		//Оптимизировать метод и функцию distance до одной строки кода
-		//after optimization
 		return sqrt(pow(this->x - other.x, 2) + pow(this->y - other.y, 2));
 		//sqrt - Square Root (Квадратный корень)
 		//pov - Power (возведение в степень)
-		
 	}
 };
-//	Создовая структуру или класс, мы создаём новый тип данных.
-//	А обяъявляя объекты этого класса или структуры - мы создаём переменные нашего типа.
-
-//Классы и структуры ещё называют пользовательскими типами данных.
-
-//	Класс		- это тип данных.
-//	Структура	- это тип данных.
-//	Объект		- это обычная переменная.
 
 double distance(const Point& A, const Point& B); //Реализовать функцию ??? distance(???), которая возвращает расстояние между двумя точками 
 
@@ -215,9 +203,116 @@ void main()
 
 #endif // ASSIGNMENT_CHECK
 
-#ifdef OPERATOR_EXEMPLES
+#ifdef OPERATOR_OVERLOADS
+//Homework 2021/03/25
+	Point A(8, 20);
+	Point B(4, 5);
 
-#endif // OPERATOR_EXEMPLES
+#ifdef ADDITIS_OVER
+	//+++++++++++++++++++++++++++++++++++++++++++//
+	std::cout << std::endl;
+	std::cout << "# Aditis 'overload' #" << std::endl;
+	std::cout << "Point before deformation" << std::endl;
+	std::cout << "Point A\n"; A.print();
+	std::cout << "Point B\n"; B.print();
+	std::cout << std::endl;
+
+	Point C = A + B;
+	std::cout << "Point 'C = A + B'\n";
+	C.print();
+	std::cout << "Point 'A + B'\n";
+	(A + B).print();
+	std::cout << "Point 'A.operator+(B)'\n";
+	(A.operator+(B)).print();
+
+	std::cout << std::endl;
+	std::cout << "Point after deformation" << std::endl;
+	std::cout << "Point A\n";
+	A.print();
+	std::cout << "Point B\n";
+	B.print();
+	std::cout << std::endl;
+#endif // ADDITIS_OVER
+
+#ifdef SUBTRACTION_OVER
+	//-------------------------------------------//
+	std::cout << std::endl;
+	std::cout << "# Subtraction 'overload' #" << std::endl;
+	std::cout << "Point before deformation" << std::endl;
+	std::cout << "Point A\n"; A.print();
+	std::cout << "Point B\n"; B.print();
+	std::cout << std::endl;
+
+	Point D = A - B;
+	std::cout << "Point 'D = A - B'\n";
+	D.print();
+	std::cout << "Point 'A - B'\n";
+	(A - B).print();
+	std::cout << "Point 'A.operator-(B)'\n";
+	(A.operator-(B)).print();
+
+	std::cout << std::endl;
+	std::cout << "Point after deformation" << std::endl;
+	std::cout << "Point A\n";
+	A.print();
+	std::cout << "Point B\n";
+	B.print();
+	std::cout << std::endl;
+#endif // SUBTRACTION_OVER
+
+#ifdef MULTIPLICATIO_OVER
+	//*******************************************//
+	std::cout << std::endl;
+	std::cout << "# Multiplicatio 'overload' #" << std::endl;
+	std::cout << "Point before deformation" << std::endl;
+	std::cout << "Point A\n"; A.print();
+	std::cout << "Point B\n"; B.print();
+	std::cout << std::endl;
+
+	Point E = A * B;
+	std::cout << "Point 'E = A * B'\n";
+	E.print();
+	std::cout << "Point 'A * B'\n";
+	(A * B).print();
+	std::cout << "Point 'A.operator-(B)'\n";
+	(A.operator*(B)).print();
+
+	std::cout << std::endl;
+	std::cout << "Point after deformation" << std::endl;
+	std::cout << "Point A\n";
+	A.print();
+	std::cout << "Point B\n";
+	B.print();
+	std::cout << std::endl;
+#endif // MULTIPLICATIO_OVER
+
+#ifdef DIVISIO_OVER
+	///////////////////////////////////////////////
+	std::cout << std::endl;
+	std::cout << "# Divisio 'overload' #" << std::endl;
+	std::cout << "Point before deformation" << std::endl;
+	std::cout << "Point A\n"; A.print();
+	std::cout << "Point B\n"; B.print();
+	std::cout << std::endl;
+
+	Point F = A / B;
+	std::cout << "Point 'F = A / B'\n";
+	F.print();
+	std::cout << "Point 'A / B'\n";
+	(A / B).print();
+	std::cout << "Point 'A.operator/(B)'\n";
+	(A.operator/(B)).print();
+
+	std::cout << std::endl;
+	std::cout << "Point after deformation" << std::endl;
+	std::cout << "Point A\n";
+	A.print();
+	std::cout << "Point B\n";
+	B.print();
+	std::cout << std::endl;
+#endif // DIVISIO_OVER
+
+#endif // OPERATOR_OVERLOADS
 }
 
 double distance(const Point& A, const Point& B)
