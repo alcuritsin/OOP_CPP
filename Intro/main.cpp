@@ -3,7 +3,10 @@
 
 //#define INTRO
 //#define CONSTRUCTORS
-#define DISTANCE_HW
+//#define DISTANCE_HW
+//#define OPERATOR_EXEMPLES
+
+#define ASSIGNMENT_CHECK
 
 //Создание структуры.
 //struct Point
@@ -71,7 +74,7 @@ public:
 		//other - это другой объект копию, которого мы создам
 		this->x = other.x;
 		this->y = other.y;
-		std::cout << "CopyAssignment:\t\t" << this << std::endl;
+		std::cout << "CopyConstructir:\t\t" << this << std::endl;
 	}
 
 	~Point()
@@ -80,11 +83,12 @@ public:
 	}
 
 	// Operartors
-	void operator = (const Point& other)
+	Point& operator = (const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		std::cout << "CopyAssignment:\t\t" << this << std::endl;
+		return *this;
 	}
 
 	// Metods
@@ -200,6 +204,20 @@ void main()
 
 #endif // DISTANCE_HW
 
+
+#ifdef ASSIGNMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+
+	Point A, B, C;
+
+	A = B = C = Point();
+
+#endif // ASSIGNMENT_CHECK
+
+#ifdef OPERATOR_EXEMPLES
+
+#endif // OPERATOR_EXEMPLES
 }
 
 double distance(const Point& A, const Point& B)
