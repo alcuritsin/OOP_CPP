@@ -1,4 +1,8 @@
 ﻿https://github.com/alcuritsin/OOP_CPP
+
+###### [Wiki](wiki) ######
+###### [ReadMe](ReadMe.md) ######
+
 # TODO: #
 ###### 2021/03/24 ######
 - [x] 1. Оптимизировать метод и функцию distance до одной строки кода. ***`--done`***
