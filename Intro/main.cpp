@@ -1,17 +1,21 @@
 ﻿#include<iostream>
 #include <cmath> // для функции sqrt, pow
 
+//using namespace std;
 //#define INTRO
 //#define CONSTRUCTORS
 //#define DISTANCE_HW
 //#define ASSIGNMENT_CHECK
 
 //HW - Operartors `+`, `-`, `*`, `/`
-#define OPERATOR_OVERLOADS	//	Homework 2021/03/25
+//#define OPERATOR_OVERLOADS	//	Homework 2021/03/25
 //#define ADDITIS_OVER		//	Перегрузка `+`
 //#define SUBTRACTION_OVER	//	Перегрузка `-`
 //#define MULTIPLICATIO_OVER	//	Перегрузка `*`
-#define DIVISIO_OVER		//	Перегрузка `/`
+//#define DIVISIO_OVER		//	Перегрузка `/`
+
+//CW - Compound Assignments //
+#define COMPOUND_ASSIGNMENTS
 
 //Создание структуры.
 //struct Point
@@ -74,28 +78,58 @@ public:
 		return *this;
 	}
 
+	Point& operator += (const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		std::cout << "Operator +=\t\t" << this << std::endl;
+		return *this;
+	}
+
+	// Increment	/	Decrement
+	Point& operator++() //Префиксный инкремент / Prefix Increment
+	{
+		this->x++;
+		this->y++;
+		std::cout << "Operator++ Prefix\t\t" << this << std::endl;
+		return *this;
+	}
+	Point operator++(int) //Префиксный инкремент / Postfix Increment
+	{
+		Point old = *this;	//	CopuConstruct
+		this->x++;
+		this->y++;
+		std::cout << "Operator++ Postfix\t\t" << this << std::endl;
+		return old;
+	}
+
+/*
+	//Реализована вне класса
 	Point operator + (const Point& other) const
 	{
-		Point C(this->x + other.x, this->y + other.y);	//Создаём объект `C` с результатом операции
-		return C; //Возвращаем объект `C` на место вызова
+		
+		std::cout << "operator+\n";
+		return Point(this->x + other.x, this->y + other.y); //Возвращаем объект на место вызова
 	}
 
 	Point operator - (const Point& other) const
 	{
-		Point C(this->x - other.x, this->y - other.y);	//Создаём объект `C` с результатом операции
-		return C; //Возвращаем объект `C` на место вызова
+		std::cout << "operator-\n";
+		return Point (this->x - other.x, this->y - other.y); //Возвращаем объект `C` на место вызова
 	}
 
 	Point operator * (const Point& other) const
 	{
-		Point C(this->x * other.x, this->y * other.y);	//Создаём объект `C` с результатом операции
-		return C; //Возвращаем объект `C` на место вызова
+		std::cout << "operator*\n";
+		return Point (this->x * other.x, this->y * other.y); //Возвращаем объект `C` на место вызова
 	}
+
 	Point operator / (const Point& other) const
 	{
-		Point C((other.x != 0 ? this->x / other.x : 0), (other.y != 0 ? this->y / other.y : 0));	//Создаём объект `C` с результатом операции
-		return C; //Возвращаем объект `C` на место вызова
+		std::cout << "operator/\n";
+		return Point ((other.x != 0 ? this->x / other.x : 0), (other.y != 0 ? this->y / other.y : 0)); //Возвращаем объект `C` на место вызова
 	}
+*/
 
 	// Metods
 	void print()
@@ -113,6 +147,16 @@ public:
 };
 
 double distance(const Point& A, const Point& B); //Реализовать функцию ??? distance(???), которая возвращает расстояние между двумя точками 
+
+Point operator+(const Point& left, const Point& right);
+Point operator-(const Point& left, const Point& right);
+Point operator*(const Point& left, const Point& right);
+Point operator/(const Point& left, const Point& right);
+
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << "\t" << "Y = " << obj.get_y();
+}
 
 void main()
 {
@@ -205,7 +249,7 @@ void main()
 
 #ifdef OPERATOR_OVERLOADS
 //Homework 2021/03/25
-	Point A(8, 20);
+	Point A(2, 3);
 	Point B(4, 5);
 
 #ifdef ADDITIS_OVER
@@ -223,7 +267,9 @@ void main()
 	std::cout << "Point 'A + B'\n";
 	(A + B).print();
 	std::cout << "Point 'A.operator+(B)'\n";
-	(A.operator+(B)).print();
+	
+	//(A.operator+(B)).print(); //Если в классе
+	C = operator+(A, B); //Вне класса
 
 	std::cout << std::endl;
 	std::cout << "Point after deformation" << std::endl;
@@ -313,6 +359,32 @@ void main()
 #endif // DIVISIO_OVER
 
 #endif // OPERATOR_OVERLOADS
+
+#ifdef COMPOUND_ASSIGNMENTS
+	Point A(2, 3);
+	Point B(4, 5);
+
+	A += B;
+	A.print();
+
+/*
+	++A;
+	A.print();
+
+	A++;
+	A.print();
+*/
+
+	std::cout << A++ << std::endl;
+	std::cout << A << std::endl;
+	std::cout << ++A << std::endl;
+	std::cout << A << std::endl;
+
+
+	++A++;
+
+#endif // COMPOUND_ASSIGNMENTS
+
 }
 
 double distance(const Point& A, const Point& B)
@@ -324,6 +396,33 @@ double distance(const Point& A, const Point& B)
 */
 	//optimization done
 	return sqrt(pow(A.get_x() - B.get_x(), 2) + pow((A.get_y() - B.get_y()), 2));
+}
+
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	std::cout << "operator+ Global\n";
+	return result;
+}
+
+Point operator-(const Point& left, const Point& right)
+{
+	std::cout << "operator- Global\n";
+	return Point(left.get_x() - right.get_x(), left.get_y() - right.get_y());
+}
+
+Point operator*(const Point& left, const Point& right)
+{
+	std::cout << "operator* Global\n";
+	return Point(left.get_x() * right.get_x(), left.get_y() * right.get_y());
+}
+
+Point operator/(const Point& left, const Point& right)
+{
+	std::cout << "operator* Global\n";
+	return Point((right.get_x() != 0 ? left.get_x() / right.get_x() : 0), (right.get_y() != 0 ? left.get_y() / right.get_y() : 0));
 }
 
 //Исполнитель
