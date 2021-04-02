@@ -1,12 +1,13 @@
 ﻿//Fraction - дробь
 #include <iostream>
 
+//#define DEBUG
 //#define CONSTRUCTORS_CHECK	//	Проверка конструкторов/деструкторов
 //#define PROPER_IMPROPER_REDUCE	//	Методы: `to_proper(); to_improper(); reduce();`
-//#define ARITHMETIC_CHECK	//	Арифметические операции
+#define ARITHMETIC_CHECK	//	Арифметические операции
 //#define COMPOUND_ASSIGNMENT	//	Составные присваивания
 //#define INCREMENT_DECREMENT	//	Инкремент / Декримент
-#define COMPARISON	// Сравнение
+//#define COMPARISON	// Сравнение
 
 	//	Class (классы)
 class Fraction
@@ -57,26 +58,58 @@ public:
 		this->denominator = abs(denominator);
 	}
 
+//////
+	Fraction& set_minus_to_number()
+	{
+		if (minus)
+		{
+			integer = -integer;
+			numerator = -numerator;
+			minus = false;
+		}
+		return *this;
+	}
+	Fraction& get_minus_from_number()
+	{
+		if (integer < 0)
+		{
+			integer = -integer;
+			minus = true;
+		}
+		if (numerator < 0)
+		{
+			numerator = -numerator;
+			minus = true;
+		}
+		return *this;
+	}
+//////
+
 	//	Constructors:
 	Fraction()
 	{
 		//	с учетом знака дроби --done
 
-		this->minus = 0;
+		this->minus = false;
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
+#ifdef DEBUG
 		std::cout << "Constructor_0:\t\t" << this << std::endl;
+#endif // DEBUG
+
 	}
 	Fraction(int integer)
 	{
 		//	с учетом знака дроби --done
-
-		(integer >=0)?this->minus = 0: this->minus = 1;
+		this->minus = false;
+		(integer >= 0) ? this->minus = false : this->minus = true;
 		this->integer = abs(integer);
 		this->numerator = 0;
 		this->denominator = 1;
+#ifdef DEBUG
 		std::cout << "Constructor_1:\t\t" << this << std::endl;
+#endif // DEBUG
 	}
 	Fraction(int numerator, int denominator)
 	{
@@ -86,22 +119,28 @@ public:
 		(numerator >= 0)? this->minus = 0:this->minus = 1;
 		this->numerator = abs(numerator);
 		this->set_denominator(denominator);
+#ifdef DEBUG
 		std::cout << "Constructor_2:\t\t" << this << std::endl;
+#endif // DEBUG
 	}
 	Fraction(int integer, int numerator, int denominator)
 	{
 		//	с учетом знака дроби --done
-
-		(integer >= 0) ? this->minus = 0 : this->minus = 1;
+		this->minus = false;
+		(integer >= 0) ? this->minus = false : this->minus = true;
 		this->integer = abs(integer);
-		(numerator >= 0 && !minus)? this->minus = 0:this->minus = 1;
+		(numerator >= 0 && !minus)? this->minus = false:this->minus = true;
 		this->numerator = abs(numerator);
 		this->set_denominator(denominator);
+#ifdef DEBUG
 		std::cout << "Constructor_3:\t\t" << this << std::endl;
+#endif // DEBUG
 	}
 	~Fraction()
 	{
+#ifdef DEBUG
 		std::cout << "Distructor:\t\t" << this << std::endl;
+#endif // DEBUG
 	}
 
 	// Operartors:
@@ -327,15 +366,17 @@ void main()
 
 	//	Арифметические операции
 #ifdef ARITHMETIC_CHECK
-	Fraction A(-2, 3, 4);
-	Fraction B(-5, 6, 7);
+	Fraction A(2, 3, 4);
+	Fraction B(5, 6, 7);
 
-	std::cout << A << " + " << B << " = " << (A + B) << std::endl;
-	std::cout << B << " - " << B << " = " << (B - B) << std::endl;
-	std::cout << B << " - " << A << " = " << (B - A) << std::endl;
-	std::cout << A << " - " << B << " = " << (A - B) << std::endl;
-	std::cout << A << " * " << B << " = " << (A * B) << std::endl;
-	std::cout << A << " / " << B << " = " << (A / B) << std::endl;
+	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
+
+	std::cout << "A + B\t-->>\t" << A << " + " << B << " = " << (A + B) << std::endl;
+	std::cout << "B - B\t-->>\t" << B << " - " << B << " = " << (B - B) << std::endl;
+	std::cout << "B - A\t-->>\t" << B << " - " << A << " = " << (B - A) << std::endl;
+	std::cout << "A - B\t-->>\t" << A << " - " << B << " = " << (A - B) << std::endl;
+	std::cout << "A * B\t-->>\t" << A << " * " << B << " = " << (A * B) << std::endl;
+	std::cout << "A / B\t-->>\t" << A << " / " << B << " = " << (A / B) << std::endl;
 #endif // ARITHMETIC_CHECK
 
 	//	Составные присваивания
@@ -343,10 +384,12 @@ void main()
 	Fraction A(2, 3, 4);
 	Fraction B(5, 6, 7);
 
-	std::cout << A << " -= " << B; std::cout << " >>> " << (A -= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
-	std::cout << A << " *= " << B; std::cout << " >>> " << (A *= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
+
+	std::cout << A << " -= " << B; std::cout << "\t>>>\t" << (A -= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << A << " *= " << B; std::cout << "\t>>>\t" << (A *= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << A << " /= " << B; std::cout << " >>> " << (A /= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << A << " /= " << B; std::cout << "\t>>>\t" << (A /= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
 #endif // COMPOUND_ASSIGNMENT
 
@@ -355,13 +398,15 @@ void main()
 	Fraction A(2, 3, 4);
 	Fraction B(5, 6, 7);
 
-	std::cout << "A++ ==> " << A++; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
+
+	std::cout << "A++\t-->>\t" << A++; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "++A ==> " << ++A; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "++A\t-->>\t" << ++A; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "A-- ==> " << A--; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "A--\t-->>\t" << A--; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "--A ==> " << --A; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "--A\t-->>\t" << --A; std::cout << "minus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
 #endif // INCREMENT_DECREMENT
 
@@ -372,13 +417,14 @@ void main()
 	//Fraction A(5, 6, 7);
 	//Fraction B(2, 3, 4);
 	
-	std::cout << "A = " << A << "\tB = " << B << std::endl;
-	std::cout << "A == B\t" << ((A == B) ? "true" : "false") << std::endl;
-	std::cout << "A != B\t" << ((A != B) ? "true" : "false") << std::endl;
-	std::cout << "A > B\t" << ((A > B) ? "true" : "false") << std::endl;
-	std::cout << "A < B\t" << ((A < B) ? "true" : "false") << std::endl;
-	std::cout << "A >= B\t" << ((A >= B) ? "true" : "false") << std::endl;
-	std::cout << "A <= B\t" << ((A <= B) ? "true" : "false") << std::endl;
+	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
+
+	std::cout << "A == B\t-->>\t" << ((A == B) ? "true" : "false") << std::endl;
+	std::cout << "A != B\t-->>\t" << ((A != B) ? "true" : "false") << std::endl;
+	std::cout << "A >  B\t-->>\t" << ((A >  B) ? "true" : "false") << std::endl;
+	std::cout << "A <  B\t-->>\t" << ((A <  B) ? "true" : "false") << std::endl;
+	std::cout << "A >= B\t-->>\t" << ((A >= B) ? "true" : "false") << std::endl;
+	std::cout << "A <= B\t-->>\t" << ((A <= B) ? "true" : "false") << std::endl;
 #endif // COMPARISON
 }
 
@@ -387,13 +433,15 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 {
 	//	с учетом знака дроби --done
 
-	if (obj.get_minus()) os << "(-)"; //Выводит знак дроби
+	if (obj.get_minus()) os << "(-"; //Выводит знак дроби
 	//Чтобы знак не дублировался, выводим модули чисел.	abs(val) -> |val|
 	if (obj.get_integer()) os << abs(obj.get_integer());
 	if (obj.get_integer() && obj.get_numerator()) os << "(";
 	if (obj.get_numerator()) os << abs(obj.get_numerator()) << "/" << abs(obj.get_denominator());
 	if (obj.get_integer() && obj.get_denominator() && obj.get_numerator())os << ")";
 	if (obj.get_integer() == 0 && obj.get_numerator() == 0) os << 0;
+	if (obj.get_minus()) os << ")"; //Выводит знак дроби
+
 	return os;
 }
 
@@ -406,8 +454,8 @@ Fraction operator+ (Fraction left, Fraction	right)
 
 	return Fraction
 	(
-		(left.get_minus() ? -left.get_integer() : left.get_integer()) + (right.get_minus() ? -right.get_integer() : right.get_integer()),
-		(left.get_minus() ? -left.get_numerator() : left.get_numerator()) * right.get_denominator() + (right.get_minus() ? -right.get_numerator() : right.get_numerator()) * left.get_denominator(),	//	с учетом знака дроби
+		(left.get_minus() ? -1 : 1) * left.get_integer() + (right.get_minus() ? -1 : 1) * right.get_integer(),
+		(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() + (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator(),	//	с учетом знака дроби
 		left.get_denominator() * right.get_denominator()
 	).to_proper();
 }
@@ -420,8 +468,8 @@ Fraction operator- (Fraction left, Fraction	right)
 
 	return Fraction
 	(
-		(left.get_minus() ? -left.get_integer() : left.get_integer()) - (right.get_minus() ? -right.get_integer() : right.get_integer()),
-		(left.get_minus() ? -left.get_numerator() : left.get_numerator()) * right.get_denominator() - (right.get_minus() ? -right.get_numerator() : right.get_numerator()) * left.get_denominator(),
+		(left.get_minus() ? -1 : 1) * left.get_integer() - (right.get_minus() ? -1 : 1) * right.get_integer(),
+		(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() - (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator(),
 		left.get_denominator() * right.get_denominator()
 	).to_proper();
 }
@@ -434,7 +482,7 @@ Fraction operator* (Fraction left, Fraction	right)
 
 	return Fraction
 	(
-		(left.get_minus() ? -left.get_numerator() : left.get_numerator()) * (right.get_minus() ? -right.get_numerator() : right.get_numerator()),
+		(left.get_minus() ? -1 : 1)* left.get_numerator() * (right.get_minus() ? -1 : 1)* right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
 	).to_proper();
 }
@@ -447,7 +495,7 @@ Fraction operator/ (Fraction left, Fraction	right)
 
 	return Fraction
 	(
-		(left.get_minus() ? -left.get_numerator() : left.get_numerator()) * (right.get_minus() ? -right.get_denominator() : right.get_denominator()),
+		(left.get_minus() ? -1 : 1) * left.get_numerator() * (right.get_minus() ? -1 : 1) * right.get_denominator(),
 		left.get_denominator() * right.get_numerator()
 	).to_proper();
 }
