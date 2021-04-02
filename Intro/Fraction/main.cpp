@@ -4,11 +4,27 @@
 //#define DEBUG
 //#define CONSTRUCTORS_CHECK	//	Проверка конструкторов/деструкторов
 //#define PROPER_IMPROPER_REDUCE	//	Методы: `to_proper(); to_improper(); reduce();`
-#define ARITHMETIC_CHECK	//	Арифметические операции
+//#define ARITHMETIC_CHECK	//	Арифметические операции
 //#define COMPOUND_ASSIGNMENT	//	Составные присваивания
-//#define INCREMENT_DECREMENT	//	Инкремент / Декримент
+#define INCREMENT_DECREMENT	//	Инкремент / Декримент
 //#define COMPARISON	// Сравнение
 
+class Fraction;	//	Class declaration  -- объявление класса
+
+std::ostream& operator<<(std::ostream& os, const Fraction& obj);
+
+Fraction operator+ (Fraction left, Fraction	right);
+Fraction operator- (Fraction left, Fraction	right);
+Fraction operator* (Fraction left, Fraction	right);
+Fraction operator/ (Fraction left, Fraction	right);
+
+bool operator== (const Fraction& left, const Fraction& right);
+bool operator!= (const Fraction& left, const Fraction& right);
+bool operator> (const Fraction& left, const Fraction& right);
+bool operator< (const Fraction& left, const Fraction& right);
+
+bool operator>= (const Fraction& left, const Fraction& right);
+bool operator<= (const Fraction& left, const Fraction& right);
 	//	Class (классы)
 class Fraction
 {	//Класс Fraction описывает простые дроби. Например:	2(3/4)
@@ -153,104 +169,23 @@ public:
 
 		return *this;
 	}
-	Fraction operator+=(const Fraction& other)
+	Fraction& operator+=(const Fraction& other)
 	{	
-		this->integer = (this->minus ? -this->integer : this->integer) + (other.minus?-other.integer:other.integer);
-		this->numerator = (this->minus ? -this->numerator : this->numerator) * other.denominator + (other.minus ? -other.numerator : other.numerator) * this->denominator;
-		this->denominator = this->denominator * other.denominator;
-
-		if (this->integer < 0 || this->numerator < 0)
-		{	
-			this->minus = 1;
-			this->integer = abs(this->integer);
-			this->numerator = abs(this->numerator);
-			this->denominator = abs(this->denominator);
-
-		}
-		else
-		{
-			this->minus = 0;
-		}
-
-		this->to_proper();
-		
-		return *this;
-		//	Хочется не так, но получилось только так :)
+		return *this = *this + other;
 	}
-	Fraction operator-=(const Fraction& other)
+	Fraction& operator-=(const Fraction& other)
 	{	
-		this->integer = (this->minus ? -this->integer : this->integer) - (other.minus?-other.integer:other.integer);
-		this->numerator = (this->minus ? -this->numerator : this->numerator) * other.denominator - (other.minus ? -other.numerator : other.numerator) * this->denominator;
-		this->denominator = this->denominator * other.denominator;
 
-		if (this->integer < 0 || this->numerator < 0)
-		{	
-			this->minus = 1;
-			this->integer = abs(this->integer);
-			this->numerator = abs(this->numerator);
-			this->denominator = abs(this->denominator);
-		}
-		else
-		{
-			this->minus = 0;
-		}
-
-		this->to_proper();
-		
-		return *this;
-		//	Хочется не так, но получилось только так :)
+		return *this = *this - other;
 	}
-	Fraction operator*=(Fraction other)
+	Fraction& operator*=(Fraction other)
 	{	
 
-		this->to_improper();
-		other.to_improper();
-
-		this->numerator = ((this->minus ? -1:1)* this->numerator) * ((other.minus ? -1:1)* other.numerator);
-		this->denominator = this->denominator * other.denominator;
-
-		if (this->numerator < 0)
-		{	
-			this->minus = 1;
-			this->integer = abs(this->integer);
-			this->numerator = abs(this->numerator);
-			this->denominator = abs(this->denominator);
-		}
-		else
-		{
-			this->minus = 0;
-		}
-
-		this->to_proper();
-		
-		return *this;
-		//	Хочется не так, но получилось только так :)
+		return *this = *this * other;
 	}
-	Fraction operator/=(Fraction other)
+	Fraction& operator/=(Fraction other)
 	{	
-
-		this->to_improper();
-		other.to_improper();
-
-		this->numerator = ((this->minus ? -1:1)* this->numerator) * ((other.minus ? -1:1)* other.denominator);
-		this->denominator = this->denominator * other.numerator;
-
-		if (this->numerator < 0)
-		{	
-			this->minus = 1;
-			this->integer = abs(this->integer);
-			this->numerator = abs(this->numerator);
-			this->denominator = abs(this->denominator);
-		}
-		else
-		{
-			this->minus = 0;
-		}
-
-		this->to_proper();
-		
-		return *this;
-		//	Хочется не так, но получилось только так :)
+		return *this = *this / other;
 	}
 
 	// Increment	/	Decrement
@@ -317,20 +252,6 @@ public:
 };
 
 	//	Functions prototype (прототипы функций)
-std::ostream& operator<<(std::ostream& os, const Fraction& obj);
-
-Fraction operator+ (Fraction left, Fraction	right);
-Fraction operator- (Fraction left, Fraction	right);
-Fraction operator* (Fraction left, Fraction	right);
-Fraction operator/ (Fraction left, Fraction	right);
-
-bool operator== (const Fraction& left, const Fraction& right);
-bool operator!= (const Fraction& left, const Fraction& right);
-bool operator> (const Fraction& left, const Fraction& right);
-bool operator< (const Fraction& left, const Fraction& right);
-
-bool operator>= (const Fraction& left, const Fraction& right);
-bool operator<= (const Fraction& left, const Fraction& right);
 
 	//	Точка входа :)
 void main()
@@ -386,10 +307,10 @@ void main()
 
 	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
 
-	std::cout << A << " -= " << B; std::cout << "\t>>>\t" << (A -= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
-	std::cout << A << " *= " << B; std::cout << "\t>>>\t" << (A *= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << A << " -= " << B; std::cout << "\t>>>\t" << (A -= B) << "\tminus = " << A.get_minus() << std::endl;
+	std::cout << A << " *= " << B; std::cout << "\t>>>\t" << (A *= B) << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << A << " /= " << B; std::cout << "\t>>>\t" << (A /= B) << std::endl; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << A << " /= " << B; std::cout << "\t>>>\t" << (A /= B) << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
 #endif // COMPOUND_ASSIGNMENT
 
@@ -400,13 +321,13 @@ void main()
 
 	std::cout << "A = " << A << "\tB = " << B << std::endl << std::endl;
 
-	std::cout << "A++\t-->>\t" << A++; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "A++\t-->>\t" << A++ << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "++A\t-->>\t" << ++A; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "++A\t-->>\t" << ++A << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "A--\t-->>\t" << A--; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "A--\t-->>\t" << A-- << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
-	std::cout << "--A\t-->>\t" << --A; std::cout << "minus = " << A.get_minus() << std::endl;
+	std::cout << "--A\t-->>\t" << --A << "\tminus = " << A.get_minus() << std::endl;
 	std::cout << (A.reduce()) << std::endl;
 #endif // INCREMENT_DECREMENT
 
