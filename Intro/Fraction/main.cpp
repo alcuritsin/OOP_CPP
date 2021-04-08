@@ -10,8 +10,10 @@
 //#define COMPARISON	// Сравнение
 #define TYPE_CONVERSIONS
 
+	//	Class prototype (прототип класса)
 class Fraction;	//	Class declaration  -- объявление класса
 
+	//	Functions prototype (прототипы функций)
 std::ostream& operator<<(std::ostream& os, const Fraction& obj);
 
 Fraction operator+ (Fraction left, Fraction	right);
@@ -153,6 +155,43 @@ public:
 		std::cout << "Constructor_3:\t\t" << this << std::endl;
 #endif // DEBUG
 	}
+	Fraction(const double decimal, const int acc = 6)
+	{
+		//	Конструктор для инициализации дроби десятичным числом
+		//	Fraction Accuracy // Точность пусть будет 1 / 100 000, но можно указывать при инициализации...
+		//	`acc` - количество знаков после запятой, которые берутся в учет.
+
+		this->minus = (decimal < 0) ? true : false;	//	записываем минус в параметр-свойство
+		this->integer = abs((int)decimal);	//	выделяем целое цисло
+		
+		if (acc <= 0)	//	Не учитывать дробную часть... ) Ну, захотелось так пользователю!
+		{
+			this->numerator = 0;
+			this->denominator = 1;
+			this->integer = abs(round(decimal));	//	Округляем число до целого по математическим правилам.
+		}
+		else
+		{	
+			//	Вычисляем знаменатель
+			if (acc > 14) //	Искуственное ограничение в 14 знаков после запятой.
+			{
+				this->denominator = pow(10,14);
+			}
+			else
+			{
+				this->denominator = pow(10,acc);
+			}
+
+			//	Вычисляем числитель
+			this->numerator = round((double)(abs(decimal) - this->get_integer()) * this->get_denominator());
+		}
+
+		this->reduce();	//	Сокращаем если возможно
+
+#ifdef DEBUG
+		std::cout << "Constructor_4:\t\t" << this << std::endl;
+#endif // DEBUG
+	}
 	~Fraction()
 	{
 #ifdef DEBUG
@@ -215,7 +254,10 @@ public:
 	{
 		return minus ? -integer : integer;
 	}
-
+	operator double()const
+	{
+		return (double)(minus ? -1 : 1) * integer * numerator / denominator;
+	}
 
 	//	Metods:
 	Fraction& to_proper()
@@ -273,8 +315,6 @@ public:
 		return *this;
 	}
 };
-
-	//	Functions prototype (прототипы функций)
 
 	//	Точка входа :)
 void main()
@@ -377,9 +417,18 @@ void main()
 	Fraction A = 5;	//	From other to this. Это преобразование выполняет SinglArgumentConstructor (конструктор с одним параметром)
 	a = A;	//	From this to other. Posible loss of data.
 	std::cout << a << std::endl;
+	
+	//	Проверка оператора преобразования в `double`
+	Fraction B(-5, 6, 7);
+	double b;
+	b = B;
+	std::cout << "b = " << b << std::endl;
+
+	//	Проверка инициализации `double`-м
+	Fraction C(4.25612254669854);
+	std::cout << "C = " << C << std::endl;
+
 #endif // TYPE_CONVERSIONS
-
-
 }
 
 	//	Functions definitio (определение функций)
