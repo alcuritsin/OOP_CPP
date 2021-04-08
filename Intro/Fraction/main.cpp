@@ -215,7 +215,10 @@ public:
 	{
 		return minus ? -integer : integer;
 	}
-
+	operator double()const
+	{
+		return (double)(minus ? -1 : 1) * integer * numerator / denominator;
+	}
 
 	//	Metods:
 	Fraction& to_proper()
@@ -377,6 +380,12 @@ void main()
 	Fraction A = 5;	//	From other to this. Это преобразование выполняет SinglArgumentConstructor (конструктор с одним параметром)
 	a = A;	//	From this to other. Posible loss of data.
 	std::cout << a << std::endl;
+	
+	Fraction B(-5, 6, 7);
+	double b;
+	b = B;
+	std::cout << "b = " << b << std::endl;
+	
 #endif // TYPE_CONVERSIONS
 
 
