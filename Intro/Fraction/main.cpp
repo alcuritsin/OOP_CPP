@@ -6,8 +6,9 @@
 //#define PROPER_IMPROPER_REDUCE	//	Методы: `to_proper(); to_improper(); reduce();`
 //#define ARITHMETIC_CHECK	//	Арифметические операции
 //#define COMPOUND_ASSIGNMENT	//	Составные присваивания
-#define INCREMENT_DECREMENT	//	Инкремент / Декримент
+//#define INCREMENT_DECREMENT	//	Инкремент / Декримент
 //#define COMPARISON	// Сравнение
+#define TYPE_CONVERSIONS
 
 class Fraction;	//	Class declaration  -- объявление класса
 
@@ -18,10 +19,10 @@ Fraction operator- (Fraction left, Fraction	right);
 Fraction operator* (Fraction left, Fraction	right);
 Fraction operator/ (Fraction left, Fraction	right);
 
-bool operator== (const Fraction& left, const Fraction& right);
+bool operator== (Fraction left, Fraction right);
 bool operator!= (const Fraction& left, const Fraction& right);
-bool operator> (const Fraction& left, const Fraction& right);
-bool operator< (const Fraction& left, const Fraction& right);
+bool operator> (Fraction left, Fraction right);
+bool operator< (Fraction left, Fraction right);
 
 bool operator>= (const Fraction& left, const Fraction& right);
 bool operator<= (const Fraction& left, const Fraction& right);
@@ -175,12 +176,10 @@ public:
 	}
 	Fraction& operator-=(const Fraction& other)
 	{	
-
 		return *this = *this - other;
 	}
 	Fraction& operator*=(Fraction other)
 	{	
-
 		return *this = *this * other;
 	}
 	Fraction& operator/=(Fraction other)
@@ -191,7 +190,7 @@ public:
 	// Increment	/	Decrement
 	Fraction operator ++ ()	//	Префиксный инкремент / Prefix Increment
 	{
-		*this += Fraction (1);
+		this->integer++;
 		return *this;
 	}
 	Fraction operator ++ (int)	//	Постфиксный инкремент / Postfix Increment
@@ -202,7 +201,7 @@ public:
 	}
 	Fraction operator -- ()	//	Префиксный декремент / Prefix Decrement
 	{
-		*this -= Fraction(1);
+		this->integer--;
 		return *this;
 	}
 	Fraction operator -- (int)	//	Постфиксный декремент / Postfix Decrement
@@ -211,6 +210,12 @@ public:
 		--*this;
 		return old;
 	}
+	//	Type cast operator
+	operator int()const
+	{
+		return minus ? -integer : integer;
+	}
+
 
 	//	Metods:
 	Fraction& to_proper()
@@ -233,6 +238,7 @@ public:
 	}
 	Fraction& reduce()
 	{
+		/*
 		//	Сокращает дробь		5/10 => 1/2 --done
 		//	с учетом знака дроби --done
 		int counter = (this->numerator<this->denominator)?this->numerator:this->denominator;	//	Определили наименьшее максимальное число, для проведения проверки.
@@ -246,6 +252,23 @@ public:
 
 		this->numerator /= gcd;
 		this->denominator /= gcd;
+		*/
+		//	CW
+		if (numerator == 0) return *this;
+		int more, less, rest;
+		//Выясняем кто больше числитель или знаменатель
+		if (numerator > denominator) less = numerator, more = denominator;
+		else less = denominator, more = numerator;
+		//Находим наибольший общий делитель
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GCD = more; //Greatest Common Divisor(Наибольший Общий Делитель)
+		numerator /= GCD;
+		denominator /= GCD;
 
 		return *this;
 	}
@@ -347,6 +370,16 @@ void main()
 	std::cout << "A >= B\t-->>\t" << ((A >= B) ? "true" : "false") << std::endl;
 	std::cout << "A <= B\t-->>\t" << ((A <= B) ? "true" : "false") << std::endl;
 #endif // COMPARISON
+
+
+#ifdef TYPE_CONVERSIONS
+	int a;
+	Fraction A = 5;	//	From other to this. Это преобразование выполняет SinglArgumentConstructor (конструктор с одним параметром)
+	a = A;	//	From this to other. Posible loss of data.
+	std::cout << a << std::endl;
+#endif // TYPE_CONVERSIONS
+
+
 }
 
 	//	Functions definitio (определение функций)
@@ -378,7 +411,7 @@ Fraction operator+ (Fraction left, Fraction	right)
 		(left.get_minus() ? -1 : 1) * left.get_integer() + (right.get_minus() ? -1 : 1) * right.get_integer(),
 		(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() + (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator(),	//	с учетом знака дроби
 		left.get_denominator() * right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 Fraction operator- (Fraction left, Fraction	right)
 {
@@ -392,7 +425,7 @@ Fraction operator- (Fraction left, Fraction	right)
 		(left.get_minus() ? -1 : 1) * left.get_integer() - (right.get_minus() ? -1 : 1) * right.get_integer(),
 		(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() - (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator(),
 		left.get_denominator() * right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 Fraction operator* (Fraction left, Fraction	right)
 {
@@ -405,7 +438,7 @@ Fraction operator* (Fraction left, Fraction	right)
 	(
 		(left.get_minus() ? -1 : 1)* left.get_numerator() * (right.get_minus() ? -1 : 1)* right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 Fraction operator/ (Fraction left, Fraction	right)
 {
@@ -418,11 +451,13 @@ Fraction operator/ (Fraction left, Fraction	right)
 	(
 		(left.get_minus() ? -1 : 1) * left.get_numerator() * (right.get_minus() ? -1 : 1) * right.get_denominator(),
 		left.get_denominator() * right.get_numerator()
-	).to_proper();
+	).to_proper().reduce();
 }
 
-bool operator== (const Fraction& left, const Fraction& right)
+bool operator== (Fraction left, Fraction right)
 {
+	left.to_improper().reduce();
+	right.to_improper().reduce();
 	if
 		(
 			(left.get_minus() ? -1 : 1) * left.get_integer() == (right.get_minus() ? -1 : 1) * right.get_integer() &&
@@ -438,11 +473,20 @@ bool operator== (const Fraction& left, const Fraction& right)
 }
 bool operator!= (const Fraction& left, const Fraction& right)
 {
-	if
-		(
-			(left.get_minus() ? -1 : 1) * left.get_integer() != (right.get_minus() ? -1 : 1) * right.get_integer() &&
-			(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() != (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator()
-			)
+	if (left == right)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool operator> (Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	if ((left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() > (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator())
 	{
 		return true;
 	}
@@ -451,28 +495,11 @@ bool operator!= (const Fraction& left, const Fraction& right)
 		return false;
 	}
 }
-bool operator> (const Fraction& left, const Fraction& right)
+bool operator< (Fraction left, Fraction right)
 {
-	if
-		(
-			(left.get_minus() ? -1 : 1) * left.get_integer() > (right.get_minus() ? -1 : 1) * right.get_integer() &&
-			(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() > (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator()
-			)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-bool operator< (const Fraction& left, const Fraction& right)
-{
-	if
-		(
-			(left.get_minus() ? -1 : 1) * left.get_integer() < (right.get_minus() ? -1 : 1) * right.get_integer() &&
-			(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() < (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator()
-			)
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	if ((left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() < (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator())
 	{
 		return true;
 	}
