@@ -256,7 +256,7 @@ public:
 	}
 	operator double()const
 	{
-		return (double)(minus ? -1 : 1) * integer * numerator / denominator;
+		return (minus ? -1 : 1) * integer + (double)numerator / denominator;
 	}
 
 	//	Metods:
@@ -507,11 +507,7 @@ bool operator== (Fraction left, Fraction right)
 {
 	left.to_improper().reduce();
 	right.to_improper().reduce();
-	if
-		(
-			(left.get_minus() ? -1 : 1) * left.get_integer() == (right.get_minus() ? -1 : 1) * right.get_integer() &&
-			(left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() == (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator()
-			)
+	if ((left.get_minus() ? -1 : 1) * left.get_numerator() * right.get_denominator() == (right.get_minus() ? -1 : 1) * right.get_numerator() * left.get_denominator())
 	{
 		return true;
 	}
