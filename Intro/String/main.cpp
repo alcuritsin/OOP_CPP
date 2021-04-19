@@ -3,7 +3,7 @@
 
 #define DELIMETR "\n---------------------------------------\n"
 
-#define DEBUG
+//#define DEBUG
 //#define CONSTRUCTOR_CHECK
 //#define ASSIGNMENT_CHECK
 
@@ -56,6 +56,17 @@ public:
 		std::cout << "CopyConstructor:\t\t" << this << std::endl;
 #endif // DEBUG
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+#ifdef DEBUG
+		std::cout << "MoveConstructor:\t" << this << std::endl;
+#endif // DEBUG
+
+	}
+
 	//	Distructor
 	~String()
 	{
@@ -84,7 +95,32 @@ public:
 #endif // DEBUG
 		return *this;
 	}
+	String& operator=(String&& other)
+	{
+		delete[] this->str;
+		this -> size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+#ifdef DEBUG
+		std::wcout << "MoveAssignment:\t\t" << this << std::endl;
+#endif // DEBUG
+		return *this;
+	}
+	const char& operator[](const int index) const
+	{
+		if (this->get_size()<index || index < 0)
+		{	
+			//	Обработка исключения :)
+			throw std::invalid_argument("Ошибка: Индекс за пределами строки.");
+		}
 
+		return this->str[index];	//	Возвращает символ
+		//return (int*)((char*)this->str + index * sizeof(char));
+	}
+	char& operator[](const int index)
+	{
+		return this->str[index];
+	}
 	void print() const
 	{
 		std::cout << "str:\t" << str << std::endl;
@@ -100,6 +136,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
+
+
 String operator+(const String& left, const String& right)
 {
 	String result(left.get_size() + right.get_size() - 1);
@@ -113,7 +151,7 @@ String operator+(const String& left, const String& right)
 	for (int i = 0; i < right.get_size(); i++)
 	{
 		//result.get_str()[i + left.get_size() - 1] = right.get_str()[i];
-		result[i + left.get_size() - 1] = left[i];
+		result[i + left.get_size() - 1] = right[i];
 	}
 	return result;
 }
@@ -160,11 +198,12 @@ void main()
 
 	String str1 = "Hello";
 	String str2 = "World";
-
+	
 	std::cout << DELIMETR << std::endl;
-	String str3 = str1 + " " + str2; //	Оператор `+` будет выполнять конкатенацию строк
+	String str3 = str1  + str2; //	Оператор `+` будет выполнять конкатенацию строк
 	std::cout << DELIMETR << std::endl;
 	std::cout << str3 << std::endl;
-
+	
+	//std::cout << str1[3];
 
 }
