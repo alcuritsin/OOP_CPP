@@ -102,7 +102,7 @@ public:
 		this->str = other.str;
 		other.str = nullptr;
 #ifdef DEBUG
-		std::wcout << "MoveAssignment:\t\t" << this << std::endl;
+		std::cout << "MoveAssignment:\t\t" << this << std::endl;
 #endif // DEBUG
 		return *this;
 	}
@@ -136,23 +136,23 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
-
-
 String operator+(const String& left, const String& right)
 {
 	String result(left.get_size() + right.get_size() - 1);
 
-	for (int i = 0; i < left.get_size(); i++)
-	{
-		//result.get_str()[i] = left.get_str()[i];
-		result[i] = left[i];
-	}
+	//for (int i = 0; i < left.get_size(); i++)
+	//{
+	//	//result.get_str()[i] = left.get_str()[i];
+	//	result[i] = left[i];
+	//}
 
-	for (int i = 0; i < right.get_size(); i++)
-	{
-		//result.get_str()[i + left.get_size() - 1] = right.get_str()[i];
-		result[i + left.get_size() - 1] = right[i];
-	}
+	//for (int i = 0; i < right.get_size(); i++)
+	//{
+	//	//result.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+	//	result[i + left.get_size() - 1] = right[i];
+	//}
+	strcpy(result.get_str(), left.get_str());	//	Выполняет копирование строки left в строку объекта result
+	strcat(result.get_str(), right.get_str());	//	Выполняет конкатенацию строки объекта result со строкой объекта right
 	return result;
 }
 
