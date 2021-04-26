@@ -2,7 +2,7 @@
 #include <ctime>
 #include<string>
 using namespace std;
-
+#define DELIMETR "\n--------------------------------------------------\n"
 #define	HUMAN_TAKE_PARAMETRS const string& last_name, const string& first_name, const unsigned int& age
 #define STUDENT_TAKE_PARAMETRS const string& speciality, const string& group, double rating
 #define TEACHER_TAKE_PARAMETRS const string& speciality, unsigned int experience
@@ -11,7 +11,7 @@ using namespace std;
 #define STUDENT_GIVE_PARAMETRS speciality, group, rating
 #define TEACHER_GIVE_PARAMETRS speciality, experience
 
-//#define DEBUG
+#define DEBUG
 //#define INHERITANCE_CHECK
 
 
@@ -72,7 +72,7 @@ public:
 		cout << "HConstructor:\t\t" << this << endl;
 #endif // DEBUG
 	}
-	~Human()
+	virtual ~Human()
 	{
 #ifdef DEBUG
 		cout << "HDestructor:\t\t" << this << endl;
@@ -80,7 +80,7 @@ public:
 	}
 
 	//	Methods
-	void info()const
+	virtual void info()const
 	{
 		/*
 		cout << "Last name:\t" << last_name << endl;
@@ -290,4 +290,27 @@ void main()
 	Tony.info();
 #endif // INHERITANCE_CHECK
 
+	//	Generalisation
+	Human* group[] =
+	{
+		new Student("Батодалаев", "Даши", 16,"РПО","PD_011",5),
+		new Student("Загидуллин", "Линар", 32, "РПО","PD_011", 5),
+		new Graduate("Шугани","Сергей", 15, "РПО", "PD_011", 5, "Защита персональных данных"),
+		new Teacher("Einstein", "Albert", 141, "Astrophisics", 110),
+		new Student("Маркин", "Даниил", 17, "РПО", "PD_011",5),
+		new Teacher("Richter","Jeffrey", 45,"Windows development",20)
+	};
+
+	cout << DELIMETR;
+	//	Specialisation
+	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
+	{
+		group[i]->info();
+		cout << DELIMETR;
+	}
+	
+	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
+	{
+		delete group[i];
+	}
 }
