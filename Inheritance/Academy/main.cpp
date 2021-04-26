@@ -3,7 +3,17 @@
 #include<string>
 using namespace std;
 
+#define	HUMAN_TAKE_PARAMETRS const string& last_name, const string& first_name, const unsigned int& age
+#define STUDENT_TAKE_PARAMETRS const string& speciality, const string& group, double rating
+#define TEACHER_TAKE_PARAMETRS const string& speciality, unsigned int experience
+
+#define	HUMAN_GIVE_PARAMETRS last_name, first_name, age
+#define STUDENT_GIVE_PARAMETRS speciality, group, rating
+#define TEACHER_GIVE_PARAMETRS speciality, experience
+
 //#define DEBUG
+//#define INHERITANCE_CHECK
+
 
 class Human
 {
@@ -52,7 +62,7 @@ public:
 
 	//	Constructors
 	//Human(const string& last_name, const string& first_name, const time_t& birth_date)
-	Human(const string& last_name, const string& first_name, const unsigned int& age)
+	Human(HUMAN_TAKE_PARAMETRS)
 	{
 		set_last_name(last_name);
 		set_first_name(first_name);
@@ -125,9 +135,9 @@ public:
 	}
 	Student
 	(
-		const string& last_name, const string& first_name, const unsigned int& age,	//	Атрибуты базового класса
-		const string& speciality, const string& group, double rating	//	Атрибуты нашего класса
-	) :Human(last_name, first_name, age)
+		HUMAN_TAKE_PARAMETRS,	//	Атрибуты базового класса
+		STUDENT_TAKE_PARAMETRS	//	Атрибуты нашего класса
+	) :Human(HUMAN_GIVE_PARAMETRS)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -191,9 +201,9 @@ public:
 	}
 	Teacher
 	(
-		const string& last_name, const string& first_name, const unsigned int& age,	//	Атрибуты базового класса
-		const string& speciality, unsigned int experience	//	Атрибуты нашего класса
-	) :Human(last_name, first_name, age)
+		HUMAN_TAKE_PARAMETRS,	//	Атрибуты базового класса
+		TEACHER_TAKE_PARAMETRS	//	Атрибуты нашего класса
+	) :Human(HUMAN_GIVE_PARAMETRS)
 	{
 		set_speciality(speciality);
 		set_experiance(experience);
@@ -216,95 +226,30 @@ public:
 	}
 
 };
-class Graduate
+class Graduate :public Student
 {
-	string	issue;	//	Тема диплома
-	unsigned int page_count;	//	Количество страниц
-	unsigned int year;	//	Год написания диплома
-	string	city;	//	Город написания тут просится enum (филиалы академии)
-	string link_to_file;	//	Ссылка на файл
-
-	Student student;	//	Исполнитель
-	Teacher teacher;	//	Преподаватель
+	string	topic;	//	Тема диплома
 
 public:
-	const string& get_issue() const
+	const string& get_topic() const
 	{
-		return issue;
+		return topic;
 	}
-	const unsigned int get_page_count() const
+	void set_topic(const string& topic)
 	{
-		return page_count;
-	}
-	const unsigned int get_year() const
-	{
-		return year;
-	}
-	const string& get_city() const
-	{
-		return city;
-	}
-	const string& get_link_to_file() const
-	{
-		return link_to_file;
-	}
-	const Student& get_student() const
-	{
-		return student;
-	}
-	const Teacher& get_teacher() const
-	{
-		return teacher;
-	}
-	void set_issue(const string& issue)
-	{
-		this->issue = issue;
-	}
-	void set_page_count (const unsigned int page_count)
-	{
-		this->page_count = page_count;
-	}
-	void set_year (const unsigned int year)
-	{
-		this->year = year;
-	}
-	void set_city (const string& city)
-	{
-		this->city = city;
-	}
-	void set_link_to_file (const string& link_to_file)
-	{
-		this->link_to_file = link_to_file;
-	}
-	void set_student (const Student& student)
-	{
-		this->student = student;
-	}
-	void set_teacher (const Teacher& teacher)
-	{
-		this->teacher = teacher;
+		this->topic = topic;
 	}
 	//	Constructors
 	Graduate
 	(
-		const string& issue,			//	Тема диплома
-		const unsigned int page_count,	//	Количество страниц
-		const unsigned int year,		//	Год написания диплома
-		const string&	city,			//	Город написания тут просится enum (филиалы академии)
-		const string& link_to_file,		//	Ссылка на файл
-
-		const Student& student,			//	Исполнитель
-		const Teacher& teacher			//	Преподаватель
-	)
+		HUMAN_TAKE_PARAMETRS,	//	Атрибуты базового класса
+		STUDENT_TAKE_PARAMETRS,	//	Атрибуты нашего класса
+		const string topic
+	):Student(HUMAN_GIVE_PARAMETRS,	//	Атрибуты базового класса
+		STUDENT_GIVE_PARAMETRS	//	Атрибуты нашего класса
+		)
 	{
-		set_issue(issue);
-		set_page_count(page_count);
-		set_year(year);
-		set_city(city);
-		set_link_to_file(link_to_file);
-
-		set_student(student);
-		set_teacher(teacher);
+		set_topic(topic);
 #ifdef DEBUG
 		cout << "GConstructor:\t\t" << this << endl;
 #endif // DEBUG
@@ -318,13 +263,8 @@ public:
 	//	Methods
 	void info() const
 	{
-			cout << "Тема: " << issue << endl;
-			cout << city << ", " << year << " (" << page_count << " стр.)" << endl;
-			cout << "Ссылка: " << link_to_file << endl;
-			cout << "------" << endl;
-			cout << "Исполнитель: "; student.info();
-			cout << "------" << endl;
-			cout << "Преподаватель: "; teacher.info();
+			cout << "Студент: "; Student::info();
+			cout << "Тема: " << topic << endl;
 	}
 };
 
@@ -332,6 +272,7 @@ void main()
 {
 	setlocale(LC_ALL, "Russian");
 
+#ifdef INHERITANCE_CHECK
 	//Human human("Тупенко", "Василий", 25);
 	//human.info();
 	Student vasya("Тупенко", "Василий", 25, "Програмирование", "BV_011", 4.5);
@@ -340,7 +281,13 @@ void main()
 	Teacher teacher("Einstein", "Albert", 150, "Phisics", 120);
 	teacher.info();
 
-	cout << "\n\nДиплом";
-	Graduate diplom("Тема диплома", 25, 2021, "Екатеринбург", "диск:/путь/diplom.doc", vasya, teacher);
-	diplom.info();
+	cout << "\n\nДипломник\n";
+	Graduate Tony
+	(
+		"Монтана", "Антонио", 25,
+		"Современные технологии продаж", "BV_011", 80,
+		"Распростронение товаров.");
+	Tony.info();
+#endif // INHERITANCE_CHECK
+
 }
