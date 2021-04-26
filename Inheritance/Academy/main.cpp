@@ -3,7 +3,7 @@
 #include<string>
 using namespace std;
 
-//#define DEBUG
+#define DEBUG
 
 class Human
 {
@@ -224,8 +224,8 @@ class Graduate
 	string	city;	//	Город написания тут просится enum (филиалы академии)
 	string link_to_file;	//	Ссылка на файл
 
-	Student student;	//	Исполнитель
-	Teacher teacher;	//	Преподаватель
+	const Student* student;	//	Исполнитель
+	const Teacher* teacher;	//	Преподаватель
 
 public:
 	const string& get_issue() const
@@ -248,11 +248,11 @@ public:
 	{
 		return link_to_file;
 	}
-	const Student& get_student() const
+	const Student* get_student() const
 	{
 		return student;
 	}
-	const Teacher& get_teacher() const
+	const Teacher* get_teacher() const
 	{
 		return teacher;
 	}
@@ -276,14 +276,14 @@ public:
 	{
 		this->link_to_file = link_to_file;
 	}
-	void set_student (const Student& student)
+	/*void set_student (const Student& student)
 	{
 		this->student = student;
 	}
 	void set_teacher (const Teacher& teacher)
 	{
 		this->teacher = teacher;
-	}
+	}*/
 	//	Constructors
 	Graduate
 	(
@@ -303,14 +303,18 @@ public:
 		set_city(city);
 		set_link_to_file(link_to_file);
 
-		set_student(student);
-		set_teacher(teacher);
+		/*set_student(student);
+		set_teacher(teacher);*/
+		this->student = &student;
+		this->teacher = &teacher;
 #ifdef DEBUG
 		cout << "GConstructor:\t\t" << this << endl;
 #endif // DEBUG
 	}
 	~Graduate()
 	{
+		delete this->student;
+		delete this->teacher;
 #ifdef DEBUG
 		cout << "GDestructor:\t\t" << this << endl;
 #endif // DEBUG
@@ -322,9 +326,9 @@ public:
 			cout << city << ", " << year << " (" << page_count << " стр.)" << endl;
 			cout << "Ссылка: " << link_to_file << endl;
 			cout << "------" << endl;
-			cout << "Исполнитель: "; student.info();
+			cout << "Исполнитель: "; student->info();
 			cout << "------" << endl;
-			cout << "Преподаватель: "; teacher.info();
+			cout << "Преподаватель: "; teacher->info();
 	}
 };
 
