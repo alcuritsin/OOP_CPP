@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{cd130711-897d-49f6-a2b5-be455eecfd3c}</ProjectGuid>
-    <RootNamespace>Academy</RootNamespace>
+    <ProjectGuid>{c1c894c6-f598-4a90-9d09-12d16a7286c6}</ProjectGuid>
+    <RootNamespace>Binary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,21 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Graduate.cpp" />
-    <ClCompile Include="Human.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Student.cpp" />
-    <ClCompile Include="Teacher.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Academy.h" />
-    <ClInclude Include="Graduate.h" />
-    <ClInclude Include="Human.h" />
-    <ClInclude Include="Student.h" />
-    <ClInclude Include="Teacher.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

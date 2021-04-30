@@ -15,72 +15,19 @@ class Student : public Human
 	string group;
 	double rating;
 public:
-	const string& get_speciality()const
-	{
-		return speciality;
-	}
-	const string& get_group()const
-	{
-		return group;
-	}
-	const double& get_rating()const
-	{
-		return rating;
-	}
+	const string& get_speciality()const;
+	const string& get_group()const;
+	const double& get_rating()const;
 
-	void set_speciality(const string& speciality)
-	{
-		this->speciality = speciality;
-	}
-	void set_group(const string& group)
-	{
-		this->group = group;
-	}
-	void set_rating(const double& rating)
-	{
-		this->rating = rating;
-	}
+	void set_speciality(const string& speciality);
+	void set_group(const string& group);
+	void set_rating(const double& rating);
 
-	//	Constructors
-	Student() : Human("", "", 0)
-	{
-		set_speciality("");
-		set_group("");
-		set_rating(0);
-#ifdef DEBUG
-		cout << "SDefaultConstructor:\t\t" << this << endl;
-#endif // DEBUG
-	}
-	Student
-	(
-		HUMAN_TAKE_PARAMETRS,	//	Атрибуты базового класса
-		STUDENT_TAKE_PARAMETRS	//	Атрибуты нашего класса
-	) :Human(HUMAN_GIVE_PARAMETRS)
-	{
-		set_speciality(speciality);
-		set_group(group);
-		set_rating(rating);
-#ifdef DEBUG
-		cout << "SConstructor:\t\t" << this << endl;
-#endif // DEBUG
+	//Student() : Human("", "", 0);
+	Student(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS);
 
-	}
-	~Student()
-	{
-#ifdef DEBUG
-		cout << "SDestructor:\t\t" << this << endl;
-#endif // DEBUG
-	}
-
-	//	Operators:
-	//Student& operator=(const Student& other)
-	//{
-	//}
+	~Student();
 
 	//	Methods
-	void info() const
-	{
-		Human::info();
-		cout << speciality << ", " << group << " успеваемость: " << rating << endl;
-	}
+	void info() const;
 };
