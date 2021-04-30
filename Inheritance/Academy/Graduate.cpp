@@ -39,3 +39,10 @@ void Graduate::info() const
 	cout << "Студент: "; Student::info();
 	cout << "Тема: " << topic << endl;
 }
+
+ostream& operator<<(ostream& os, const Graduate& obj)
+{
+	// TODO: insert return statement here
+
+	return os <<(Student)obj << ", " << obj.get_topic();
+}

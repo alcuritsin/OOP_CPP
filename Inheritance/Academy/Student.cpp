@@ -72,3 +72,9 @@ void Student::info() const
 	Human::info();
 	cout << speciality << ", " << group << " успеваемость: " << rating << endl;
 }
+
+ostream& operator<<(ostream& os, const Student& obj)
+{
+	// TODO: insert return statement here
+	return os << (Human)obj << ", " << obj.get_speciality() << " " << obj.get_group() << " " << obj.get_rating();
+}

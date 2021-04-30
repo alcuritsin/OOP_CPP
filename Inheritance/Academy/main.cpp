@@ -36,16 +36,34 @@ void main()
 		new Student("Батодалаев", "Даши", 16,"РПО","PD_011",5),
 		new Student("Загидуллин", "Линар", 32, "РПО","PD_011", 5),
 		new Graduate("Шугани","Сергей", 15, "РПО", "PD_011", 5, "Защита персональных данных"),
-		new Teacher("Einstein", "Albert", 141, "Astrophisics", 110),
+		new Teacher("Einstein", "Albert", 141, "Astrophysic", 110),
 		new Student("Маркин", "Даниил", 17, "РПО", "PD_011",5),
-		new Teacher("Richter","Jeffrey", 45,"Windows development",20)
+		new Teacher("Richter","Jeffrey", 45,"Windows development",20),
+		new Graduate("Курицын", "Алексей", 33, "РПО", "BV_011", 5, "Разработка распределённой базы данных")
 	};
 
 	cout << DELIMETR;
 	//	Specialisation
 	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
 	{
-		group[i]->info();
+		//group[i]->info();
+		
+		cout << typeid(*group[i]).name() << endl;
+		//cout << *group[i] <<", ";
+		if (typeid(*group[i]) == typeid(Student))
+		{
+			cout << *dynamic_cast <Student*>(group[i]);
+		}
+		if (typeid(*group[i]) == typeid(Teacher))
+		{
+			cout << *dynamic_cast <Teacher*>(group[i]);
+		}
+		if (typeid(*group[i]) == typeid(Graduate))
+		{
+			cout << *dynamic_cast <Graduate*>(group[i]);
+		}
+
+
 		cout << DELIMETR;
 	}
 	

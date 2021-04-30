@@ -31,3 +31,5 @@ public:
 	//	Methods
 	void info() const;
 };
+
+ostream& operator<<(ostream& os, const Student& obj);
