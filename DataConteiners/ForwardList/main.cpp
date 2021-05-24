@@ -7,6 +7,10 @@ using std::endl;
 
 #define DEBUG
 
+class Element;
+class  ForwardList;
+
+
 class Element
 {
 	int Data;	//	Значение элемента
@@ -29,6 +33,8 @@ public:
 #endif // DEBUG
 	}
 	friend class ForwardList;
+	
+	//	2. Написать деструктор, чтобы он очищал список перед удалением;
 };
 
 int Element::count = 0;	//	Инициализация статической переменной
@@ -47,8 +53,40 @@ public:
 #endif // DEBUG
 
 	}
+
+	ForwardList(const ForwardList* other)
+	{
+		//	NOT DONE -- TODO!!!
+		//	Добавить CopyMethods;
+		Element* Temp = other->Head;
+
+		while (Temp != nullptr)
+		{
+			this->push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+
+
+#ifdef DEBUG
+		cout << "Copy_LConstrictor:\t\t" << this << endl;
+#endif // DEBUG
+	}
+
 	~ ForwardList()
 	{
+		//	Написать деструктор, чтобы он очищал список перед удалением;
+		while (Head->pNext != nullptr)
+		{
+			Element* Temp = Head;
+			while (Temp->pNext->pNext != nullptr)
+			{
+				Temp = Temp->pNext;
+			}
+				delete Temp->pNext;
+				Temp->pNext = nullptr;
+		}
+		delete Head;
+
 #ifdef DEBUG
 		cout << "LDestructor:\t\t" << this << endl;
 #endif // DEBUG
@@ -95,6 +133,50 @@ public:
 		delete Temp;
 		size--;
 	}
+
+	void erase(int index)
+	{
+		//	метод erase(), который удаляет элемент по индексу;
+
+		//	Введённый индекс выходит за правую границу списка.
+		//	Список не изменится. Выход из метода.
+		if (size < index) return;	//	Когда есть размер списка. Если такого параметра нет ниже предусмотрен другой вариант выхода.
+
+		Element* Temp = Head;
+
+		if (index == 0)
+		{
+			erasing_front();
+			return;
+		}
+
+		for (int i = 0; i < index - 1; i++)
+		{
+			Temp = Temp->pNext;
+			if (Temp->pNext->pNext == nullptr)
+			{
+				//	Достигнут предпоследний элемент списка. 
+				if (i + 2 < index-1)
+				{	
+					//	Другой вариант выхода:
+					//	Введённый индекс выходит за правую границу списка.
+					//	Список не изменится. Выход из метода.
+					return;
+				}
+				break;
+			}
+		}
+
+		//	Запоминаем эелемент для освобождения памяти.
+		Element* erTemp = Temp->pNext;
+		//	Адрес следующего элемента списка, получает значение через элемент.
+		Temp->pNext  = Temp->pNext->pNext;
+		//	Освобождаем память
+		delete erTemp;
+		//	Уменьшаем размер массива.
+		size--;
+	}
+
 	void pop_back()
 	{
 		Element* Temp = Head;
@@ -144,6 +226,7 @@ public:
 		size++;
 	}
 
+
 	//	Methods
 	void print()
 	{
@@ -156,6 +239,7 @@ public:
 		cout << "Count := " << Element::count << endl;
 		cout << "Size := " << size << endl;
 	}
+
 };
 
 void main()
@@ -173,32 +257,44 @@ void main()
 
 	list.print();
 
-	list.erasing_front();
+	list.erase(6);
+	list.print();
+
+	cout << "List2:" << endl;
+	ForwardList list2 (list);
+	list2.print();
+	/*list.erasing_front();
 	list.print();
 
 	list.pop_back();
-	list.print();
+	list.print();*/
 
-	int value;
-	int index;
+	//int value;
+	//int index;
 
-	cout << "Value: "; cin >> value;
-	cout << "Index: "; cin >> index;
+	//cout << "Value: "; cin >> value;
+	//cout << "Index: "; cin >> index;
 
-	list.insert(value ,index);
-	list.print();
-	
-	cout << "List2:" << endl;
-	ForwardList list2;
-	for (int i = 0; i < n; i++)
-	{
-		//list.push_front(rand() % 100);
-		list2.push_back(rand() % 100);
-	}
-	list2.print();
+	//list.insert(value ,index);
+	//list.print();
+	//
+	//cout << "List2:" << endl;
+	//ForwardList list2;
+	//for (int i = 0; i < n; i++)
+	//{
+	//	//list.push_front(rand() % 100);
+	//	list2.push_back(rand() % 100);
+	//}
+	//list2.print();
 
 
 	//list.push_back(123);
 
 	//list.print();
 }
+/*
+В класс ForwardList добавить :
+1. метод erase(), который удаляет элемент по индексу;
+2. Написать деструктор, чтобы он очищал список перед удалением;
+3. Добавить CopyMethods;
+*/
