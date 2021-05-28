@@ -54,11 +54,11 @@ public:
 
 	}
 
-	ForwardList(const ForwardList* other)
+	ForwardList(const ForwardList& other)
 	{
 		//	NOT DONE -- TODO!!!
 		//	Добавить CopyMethods;
-		Element* Temp = other->Head;
+		Element* Temp = other.Head;
 
 		while (Temp != nullptr)
 		{
@@ -240,6 +240,28 @@ public:
 		cout << "Size := " << size << endl;
 	}
 
+	// Operators
+	ForwardList& operator=(const ForwardList& other)
+	{
+		//	NOT DONE -- TODO!!!
+		//	Добавить CopyMethods;
+		if (this == &other) return *this;
+		while (Head) erasing_front();
+		Element* Temp = other.Head;
+
+		while (Temp != nullptr)
+		{
+			this->push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+
+
+#ifdef DEBUG
+		cout << "CopyAssignment_LConstrictor:\t\t" << this << endl;
+#endif // DEBUG
+		return *this;
+	}
+
 };
 
 void main()
@@ -255,14 +277,22 @@ void main()
 		list.push_back(rand() % 100);
 	}
 
-	list.print();
+	list = list;
 
+	list.print();
+/*
 	list.erase(6);
 	list.print();
 
 	cout << "List2:" << endl;
 	ForwardList list2 (list);
 	list2.print();
+	cout << "List3::" << endl;
+	ForwardList list3;
+	list3 = list2;
+	list3.print();
+
+*/
 	/*list.erasing_front();
 	list.print();
 
