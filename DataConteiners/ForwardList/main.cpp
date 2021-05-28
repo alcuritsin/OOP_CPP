@@ -8,8 +8,7 @@ using std::endl;
 #define DEBUG
 
 class Element;
-class  ForwardList;
-
+class ForwardList;
 
 class Element
 {
@@ -33,11 +32,56 @@ public:
 #endif // DEBUG
 	}
 	friend class ForwardList;
-	
+	friend class Iterator;
 	//	2. Написать деструктор, чтобы он очищал список перед удалением;
 };
 
 int Element::count = 0;	//	Инициализация статической переменной
+
+class Iterator
+{
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr)
+	{
+		this->Temp = Temp;
+		cout << "IConstructor" << this << endl;
+
+	}
+	~Iterator()
+	{
+		cout << "IDestructor" << this << endl;
+	}
+
+	// Operators:
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	Iterator operator ++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+	bool operator== (const Iterator& other) const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!= (const Iterator& other) const
+	{
+		return this->Temp != other.Temp;
+	}
+	Element*& operator-> ()
+	{
+		return Temp;
+	}
+	Element* get_current_address()
+	{
+		return Temp;
+	}
+};
 
 class  ForwardList
 {
@@ -95,9 +139,10 @@ public:
 	void push_front(int Data)
 	{
 		//	Добавляет новый элемент в начало списка.
-		Element* New = new Element(Data);
+		Head = new Element(Data, Head);
+		/*Element* New = new Element(Data);
 		New->pNext = Head;
-		Head = New;
+		Head = New;*/
 		size++;
 	}
 	void push_back(int Data)
@@ -110,7 +155,7 @@ public:
 			push_front(Data);
 			return;
 		}
-		Element* New = new Element(Data);
+		//Element* New = new Element(Data);
 
 		Element* Temp = Head; // Итератор
 		
@@ -119,13 +164,14 @@ public:
 		{
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = New;
+		Temp->pNext = new Element (Data);
 		size++;
 	}
 
 	//	Erassing elements:
 	void erasing_front()
 	{
+
 		Element* Temp = Head;
 
 		Head = Head->pNext;
@@ -214,15 +260,16 @@ public:
 
 		Element* Temp = Head;
 
-		Element* New = new Element(Data);
+		//Element* New = new Element(Data);
 		
 		for (int i = 0; i < index - 1; i++, Temp = Temp->pNext)
 		{
 			if (Temp->pNext == nullptr)break;
 		}
 
-		New->pNext = Temp->pNext;
-		Temp->pNext = New;
+		/*New->pNext = Temp->pNext;
+		Temp->pNext = New;*/
+		Temp->pNext = new Element(Data, Temp->pNext);
 		size++;
 	}
 
@@ -230,11 +277,17 @@ public:
 	//	Methods
 	void print()
 	{
-		Element* Temp = Head;
-		while (Temp!=nullptr)
+		//Element* Temp = Head;
+		//while (Temp!=nullptr)
+		//{
+		//	cout << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
+		//	Temp = Temp->pNext;
+		//}
+
+		//for (Element* Temp =Head; Temp; Temp=Temp->pNext )
+		for (Iterator Temp = Head; Temp!= nullptr; Temp++)
 		{
-			cout << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
-			Temp = Temp->pNext;
+			cout<< Temp.get_current_address() << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
 		}
 		cout << "Count := " << Element::count << endl;
 		cout << "Size := " << size << endl;
@@ -299,15 +352,15 @@ void main()
 	list.pop_back();
 	list.print();*/
 
-	//int value;
-	//int index;
+	int value;
+	int index;
 
-	//cout << "Value: "; cin >> value;
-	//cout << "Index: "; cin >> index;
+	cout << "Value: "; cin >> value;
+	cout << "Index: "; cin >> index;
 
-	//list.insert(value ,index);
-	//list.print();
-	//
+	list.insert(value ,index);
+	list.print();
+	
 	//cout << "List2:" << endl;
 	//ForwardList list2;
 	//for (int i = 0; i < n; i++)
