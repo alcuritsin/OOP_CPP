@@ -12,18 +12,21 @@ using std::endl;
 
 //#define DEBUG
 //#define RANGE_BASED_ARRAY
+//#define RANGE_BASED_LIST
 
-class Element;
-class ForwardList;
+template<typename T> class ForwardList;
+template<typename T> class Iterator;
+template<typename T> class Element;
 
+template <typename T>
 class Element
 {
-	int Data;	//	Значение элемента
-	Element* pNext;	//	Указатель на следующий элемент
+	T Data;	//	Значение элемента
+	Element<T>* pNext;	//	Указатель на следующий элемент
 	static int count;
 
 public:
-	Element(int Data, Element* pNext = nullptr) : Data(Data), pNext(pNext)
+	Element(T Data, Element<T>* pNext = nullptr) : Data(Data), pNext(pNext)
 	{
 		count++;
 #ifdef DEBUG
@@ -37,18 +40,21 @@ public:
 		cout << "EDestructor:\t\t" << this << endl;
 #endif // DEBUG
 	}
-	friend class ForwardList;
-	friend class Iterator;
+	friend class ForwardList<T>;
+	friend class Iterator<T>;
 	//	2. Написать деструктор, чтобы он очищал список перед удалением;
 };
 
-int Element::count = 0;	//	Инициализация статической переменной
+template <typename T>
+int Element<T>::count = 0;	//	Инициализация статической переменной
 
+
+template <typename T>
 class Iterator
 {
-	Element* Temp;
+	Element<T>* Temp;
 public:
-	Iterator(Element* Temp = nullptr)
+	Iterator(Element<T>* Temp = nullptr)
 	{
 		this->Temp = Temp;
 #ifdef DEBUG
@@ -67,73 +73,74 @@ public:
 	}
 
 	// Operators:
-	Iterator& operator++()
+	Iterator<T>& operator++()
 	{
 		Temp = Temp->pNext;
 		return *this;
 	}
-	Iterator operator ++(int)
+	Iterator<T> operator ++(int)
 	{
 		Iterator old = *this;
 		Temp = Temp->pNext;
 		return old;
 	}
-	bool operator== (const Iterator& other) const
+	bool operator== (const Iterator<T>& other) const
 	{
 		return this->Temp == other.Temp;
 	}
-	bool operator!= (const Iterator& other) const
+	bool operator!= (const Iterator<T>& other) const
 	{
 		return this->Temp != other.Temp;
 	}
-	Element*& operator-> ()
+	Element<T>*& operator-> ()
 	{
 		return Temp;
 	}
-	Element* get_current_address()
+	Element<T>* get_current_address()
 	{
 		return Temp;
 	}
 
-	const int& operator *()const
+	const T& operator *()const
 	{
 		return Temp->Data;
 	}
-	int& operator *()
+	T& operator *()
 	{
 		return Temp->Data;
 	}
 
 };
 
+template <typename T>
 class  ForwardList
 {
-	Element* Head;
+	Element<T>* Head;
 	int size;
 public:
-	Iterator getHead()
+	Iterator<T> getHead()
 	{
 		return Head;
 	}
 
-	Iterator begin()
+	Iterator<T> begin()
 	{
 		return Head;
 	}
-	Iterator end()
+	Iterator<T> end()
 	{
 		return nullptr;
 	}
 
 
-	ForwardList(initializer_list<int> il) :ForwardList() //	 Делегирование кнструктора по умолчанию
+	ForwardList(initializer_list<T> il) :ForwardList() //	 Делегирование кнструктора по умолчанию
 	{
 		//	il - это контейнер, такой же, как наш ForwardList
 		//	У любого контейнера есть методы begin() и end(),
 		//	которые возвращают адрес на начало и конец контейнера
 
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			//	it - это итератор, которрый проходит по il
 			push_back(*it);
@@ -150,7 +157,7 @@ public:
 
 	}
 
-	ForwardList(const ForwardList& other)
+	ForwardList<T>(const ForwardList<T>& other)
 	{
 		//	NOT DONE -- TODO!!!
 		//	Добавить CopyMethods;
@@ -173,7 +180,7 @@ public:
 		//	Написать деструктор, чтобы он очищал список перед удалением;
 		while (Head->pNext != nullptr)
 		{
-			Element* Temp = Head;
+			Element<T>* Temp = Head;
 			while (Temp->pNext->pNext != nullptr)
 			{
 				Temp = Temp->pNext;
@@ -188,16 +195,16 @@ public:
 #endif // DEBUG
 	}
 	//	Adding Elements
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		//	Добавляет новый элемент в начало списка.
-		Head = new Element(Data, Head);
+		Head = new Element<T>(Data, Head);
 		/*Element* New = new Element(Data);
 		New->pNext = Head;
 		Head = New;*/
 		size++;
 	}
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		//	Добавляет значение в конец списка.
 		//	Этот метод не умеет работать с пустым списком.
@@ -209,14 +216,14 @@ public:
 		}
 		//Element* New = new Element(Data);
 
-		Element* Temp = Head; // Итератор
+		Element<T>* Temp = Head; // Итератор
 		
 
 		while (Temp->pNext !=nullptr)
 		{
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = new Element (Data);
+		Temp->pNext = new Element<T> (Data);
 		size++;
 	}
 
@@ -232,7 +239,7 @@ public:
 		size--;
 	}
 
-	void erase(int index)
+	void erase(T index)
 	{
 		//	метод erase(), который удаляет элемент по индексу;
 
@@ -302,7 +309,7 @@ public:
 		size--;
 	}
 
-	void insert( int Data, int index)
+	void insert( T Data, int index)
 	{
 		if (index == 0)
 		{
@@ -337,18 +344,18 @@ public:
 		//}
 
 		//for (Element* Temp =Head; Temp; Temp=Temp->pNext )
-		for (Iterator Temp = Head; Temp!= nullptr; Temp++)
+		for (Iterator<T> Temp = Head; Temp!= nullptr; Temp++)
 		{
 			//cout<< Temp.get_current_address() << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
 			cout<< *Temp << "\t";
 		}
 		cout << endl;
-		cout << "Count := " << Element::count << endl;
+		cout << "Count := " << Element<T>::count << endl;
 		cout << "Size := " << size << endl;
 	}
 
 	// Operators
-	ForwardList& operator=(const ForwardList& other)
+	ForwardList <T>& operator=(const ForwardList<T>& other)
 	{
 		//	NOT DONE -- TODO!!!
 		//	Добавить CopyMethods;
@@ -383,10 +390,10 @@ void main()
 	//int n;
 	//cout << "Введите размер списка: "; cin >> n;
 
-	//ForwardList list;
+	//ForwardList<int> list;
 	//for (int  i = 0; i < n; i++)
 	//{
-	//	//list.push_front(rand() % 100);
+	//	list.push_front(rand() % 100);
 	//	list.push_back(rand() % 100);
 	//}
 	//list.print();
@@ -416,7 +423,8 @@ void main()
 
 #endif // RANGE_BASED_ARRAY
 
-	ForwardList list = { 3, 5, 8, 13, 21 };
+#ifdef RANGE_BASED_LIST
+	ForwardList<int> list = { 3, 5, 8, 13, 21 };
 	list.print();
 
 	for (int i : list)
@@ -424,6 +432,8 @@ void main()
 		cout << i << "\t";
 	}
 	cout << endl;
+
+#endif // RANGE_BASED_LIST
 
 /*
 	list.erase(6);
@@ -467,6 +477,13 @@ void main()
 	//list.push_back(123);
 
 	//list.print();
+
+	ForwardList<double> list{ 2.5, 3.14,8.3,5.4,7.2 };
+	for  (double i:list)
+	{
+		cout << i << "\t";
+	}
+	cout << endl;
 }
 /*
 В класс ForwardList добавить :
