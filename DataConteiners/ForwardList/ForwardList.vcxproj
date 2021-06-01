@@ -139,7 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ForwardList.cpp" />
+    <ClCompile Include="Iterator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Element.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Element.h" />
+    <ClInclude Include="ForwardList.h" />
+    <ClInclude Include="Iterator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
