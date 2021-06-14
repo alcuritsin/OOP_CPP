@@ -10,7 +10,7 @@ using std::endl;
 #define tab "\t"
 //#define	BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
-
+//#define ITERATORS_CHECK
 
 class  List
 {
@@ -242,6 +242,19 @@ public:
 		}
 	}
 
+	List(const List& other) : List()
+	{
+		//for (int i : other.begin())
+		//{
+		//	push_back(i);
+		//}
+
+		for (Iterator it = other.begin(); it != other.end(); ++it)
+		{
+			push_back(*it);
+		}
+	}
+
 	~List()
 	{
 		//while (Head) pop_front();
@@ -430,8 +443,16 @@ public:
 	{
 		return Head;
 	}
+	/*const*/ Iterator begin()const
+	{
+		return Head;
+	}
 
 	Iterator end()
+	{
+		return nullptr;
+	}
+	/*const*/ Iterator end()const
 	{
 		return nullptr;
 	}
@@ -440,8 +461,16 @@ public:
 	{
 		return Tail;
 	}
+	/*const*/ ReverseIterator rbegin() const
+	{
+		return Tail;
+	}
 
 	ReverseIterator rend()
+	{
+		return nullptr;
+	}
+	/*const*/ ReverseIterator rend() const
 	{
 		return nullptr;
 	}
@@ -493,6 +522,7 @@ void main()
 
 #endif // SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 
+#ifdef ITERATORS_CHECK
 	List list = { 3,5,8,13,21 };
 	list.print();
 
@@ -513,4 +543,13 @@ void main()
 	{
 		cout << *it << tab;
 	}
+#endif // ITERATORS_CHECK
+
+	List list1 = { 3,5,8,13,21 };
+	list1.print();
+	
+	List list2 = list1;
+	list2.print();
+
+
 }
