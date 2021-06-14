@@ -48,12 +48,42 @@ public:
 	Element* Tail;	//	Указатель на конечный элемент списка
 
 	unsigned int size;	//	Размер списка
-public:
-	class Iterator
+
+	class BaseIterator
 	{
+	protected:
 		Element* Temp;
 	public:
-		Iterator(Element* Temp = nullptr) : Temp(Temp)
+		BaseIterator(Element* Temp = nullptr) : Temp(Temp)
+		{
+#ifdef DEBUG
+			cout << "BITConstructor:\t" << this << endl;
+#endif // DEBUG
+		}
+
+		~BaseIterator()
+		{
+#ifdef DEBUG
+			cout << "BITDestructor:\t" << this << endl;
+#endif // DEBUG
+		}
+
+		const int& operator*() const
+		{
+			return Temp->Data;
+		}
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+
+	};
+
+public:
+	class Iterator :public BaseIterator
+	{
+	public:
+		Iterator(Element* Temp = nullptr) : BaseIterator(Temp)
 		{
 #ifdef DEBUG
 			cout << "ITConstructor:\t" << this << endl;
@@ -102,23 +132,13 @@ public:
 			return this->Temp != other.Temp;
 		}
 
-		const int& operator*() const
-		{
-			return Temp->Data;
-		}
-		int& operator*()
-		{
-			return Temp->Data;
-		}
 
 	};
 
-	class ReverseIterator
+	class ReverseIterator:public BaseIterator
 	{
-		Element* Temp;
 	public:
-
-	ReverseIterator(Element* Temp = nullptr) : Temp(Temp)
+		ReverseIterator(Element* Temp = nullptr) : BaseIterator(Temp)
 		{
 #ifdef DEBUG
 			cout << "rITConstructor:\t" << this << endl;
@@ -165,16 +185,6 @@ public:
 		bool operator !=(const ReverseIterator& other) const
 		{
 			return this->Temp != other.Temp;
-		}
-
-		const int& operator*() const
-		{
-			return Temp->Data;
-		}
-
-		int& operator*()
-		{
-			return Temp->Data;
 		}
 
 	};
@@ -481,7 +491,7 @@ void main()
 		cout << i << tab;
 	}
 	cout << endl;
-	
+
 	for (List::Iterator it = list.begin(); it != list.end(); ++it)
 	{
 		cout << *it << tab;
