@@ -6,12 +6,13 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-//#define DEBUG
+#define DEBUG
 #define tab "\t"
 //#define	BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 //#define ITERATORS_CHECK
 //#define COPY_METHODS_CHECK
+#define MOVE_METHODS_CHECK
 
 class  List
 {
@@ -252,12 +253,24 @@ public:
 
 		for (int i : other) push_back(i);
 #ifdef DEBUG
-		cout << "CopyConstructor\n";
+		cout << "CopyConstructor\t" << this << endl;
 #endif // DEBUG
 		/*for (Iterator it = other.begin(); it != other.end(); ++it)
 		{
 			push_back(*it);
 		}*/
+	}
+
+	List(List&& other)
+	{
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		other.Head = other.Tail = nullptr;
+
+#ifdef DEBUG
+		cout << "MoveConstructor\t" << this << endl;
+#endif // DEBUG
 	}
 
 	~List()
@@ -304,13 +317,28 @@ public:
 		for (int i : other) push_back(i);
 
 #ifdef DEBUG
-		cout << "CopyAssignment\n";
+		cout << "CopyAssignment\t" << this << endl;
 #endif // DEBUG
 
 		/*for (Iterator it = other.begin(); it != other.end(); ++it)
 		{
 			push_back(*it);
 		}*/
+	}
+
+	List& operator= (List&& other)
+	{
+		while (Head)pop_front();
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		other.Head = other.Tail = nullptr;
+
+#ifdef DEBUG
+		cout << "MoveAssignment\t" << this << endl;
+#endif // DEBUG
+
+		return *this;
 	}
 
 
@@ -591,11 +619,14 @@ void main()
 	list3.print();
 #endif // COPY_METHODS_CHECK
 
-
+#ifdef MOVE_METHODS_CHECK
 	List list1 = { 3,5,8,13,21 };
 	List list2 = { 30,40,50 };
 
-	List list3 = list1 + list2;
+	//List list3 = list1 + list2; //MoveConstructor
+	List list3;
+	list3 = list1 + list2;
 	list3.print();
+#endif // MOVE_METHODS_CHECK
 
 }
