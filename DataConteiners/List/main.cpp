@@ -249,10 +249,14 @@ public:
 		//	push_back(i);
 		//}
 
-		for (Iterator it = other.begin(); it != other.end(); ++it)
+		for (int i : other) push_back(i);
+#ifdef DEBUG
+		cout << "CopyConstructor\n";
+#endif // DEBUG
+		/*for (Iterator it = other.begin(); it != other.end(); ++it)
 		{
 			push_back(*it);
-		}
+		}*/
 	}
 
 	~List()
@@ -287,6 +291,28 @@ public:
 		}
 		return Temp->Data;
 	}
+	List& operator=(const List& other)
+	{
+		//for (int i : other.begin())
+		//{
+		//	push_back(i);
+		//}
+		if (this == &other) return *this;
+		while (Head) pop_front();
+
+		for (int i : other) push_back(i);
+
+#ifdef DEBUG
+		cout << "CopyAssignment\n";
+#endif // DEBUG
+
+		/*for (Iterator it = other.begin(); it != other.end(); ++it)
+		{
+			push_back(*it);
+		}*/
+	}
+
+
 
 	//		Adding element:
 	void push_front(int Data)
@@ -551,5 +577,7 @@ void main()
 	List list2 = list1;
 	list2.print();
 
-
+	List list3;
+	list3 = list2;
+	list3.print();
 }
