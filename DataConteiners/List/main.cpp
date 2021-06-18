@@ -25,24 +25,9 @@ public:
 		Element* pPrev;	//	Указатель на предидущий элемент
 
 	public:
-		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr)
-		{
-			this->Data = Data;
-			this->pNext = pNext;
-			this->pPrev = pPrev;
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr);
 
-#ifdef DEBUG
-			cout << "EConstructor:\t" << this << endl;
-#endif // DEBUG
-
-		}
-
-		~Element()
-		{
-#ifdef DEBUG
-			cout << "EDestructor:\t" << this << endl;
-#endif // DEBUG
-		}
+		~Element();
 
 		friend class List<T>;
 	};
@@ -237,9 +222,26 @@ public:
 
 };
 
+template <typename T> List<T>::Element::Element(T Data, Element* pNext, Element* pPrev)
+{
+	this->Data = Data;
+	this->pNext = pNext;
+	this->pPrev = pPrev;
 
-template <typename T>
-size_t List<T>::getSize()const
+#ifdef DEBUG
+	cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+
+}
+
+template <typename T> List<T>::Element::~Element()
+{
+#ifdef DEBUG
+	cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+template <typename T> size_t List<T>::getSize()const
 {
 	return size;
 }
@@ -371,8 +373,6 @@ template <typename T> List<T>& List<T>::operator= (List<T>&& other)
 
 	return *this;
 }
-
-
 
 //		Adding element:
 template <typename T> void List<T>::push_front(T Data)
@@ -530,6 +530,7 @@ template <typename T> typename List<T>::Iterator List<T>::begin()
 {
 	return Head;
 }
+
 template <typename T> const typename List<T>::Iterator List<T>::begin()const
 {
 	return Head;
@@ -539,6 +540,7 @@ template <typename T> typename List<T>::Iterator List<T>::end()
 {
 	return nullptr;
 }
+
 template <typename T> const typename List<T>::Iterator List<T>::end()const
 {
 	return nullptr;
@@ -548,6 +550,7 @@ template <typename T> typename List<T>::ReverseIterator List<T>::rbegin()
 {
 	return Tail;
 }
+
 template <typename T> const typename List<T>::ReverseIterator List<T>::rbegin() const
 {
 	return Tail;
@@ -557,13 +560,13 @@ template <typename T> typename List<T>::ReverseIterator List<T>::rend()
 {
 	return nullptr;
 }
+
 template <typename T> const typename List<T>::ReverseIterator List<T>::rend() const
 {
 	return nullptr;
 }
 
-template<typename T>
-List<T> operator+(const List<T>& left, const List<T>& right)
+template<typename T> List<T> operator+(const List<T>& left, const List<T>& right)
 {
 	List<T> cat = left;
 	for (T i : right) cat.push_back(i);
