@@ -60,88 +60,33 @@ public:
 	class Iterator :public BaseIterator
 	{
 	public:
-		Iterator(Element* Temp = nullptr) : BaseIterator(Temp)
-		{
-#ifdef DEBUG
-			cout << "ITConstructor:\t" << this << endl;
-#endif // DEBUG
-		}
-		~Iterator()
-		{
-#ifdef DEBUG
-			cout << "ITDestructor:\t" << this << endl;
-#endif // DEBUG
-		}
+		Iterator(Element* Temp = nullptr);
 
-		Iterator& operator++()	//	Prefix increment
-		{
-			BaseIterator::Temp = BaseIterator::Temp->pNext;
-			return *this;
-		}
+		~Iterator();
 
-		Iterator operator++(int)	//	Postfix increment
-		{
-			Iterator old = *this;
-			BaseIterator::Temp = BaseIterator::Temp->pNext;
-			return old;
-		}
+		Iterator& operator++();
 
-		Iterator& operator--()	//	Prefix decrement
-		{
-			BaseIterator::Temp = BaseIterator::Temp->pPrev;
-			return *this;
-		}
+		Iterator operator++(int);
 
-		Iterator operator--(int)	//	Postfix decrement
-		{
-			Iterator old = *this;
-			BaseIterator::Temp = BaseIterator::Temp->pPrev;
-			return old;
-		}
+		Iterator& operator--();
+
+		Iterator operator--(int);
 
 	};
 
 	class ReverseIterator:public BaseIterator
 	{
 	public:
-		ReverseIterator(Element* Temp = nullptr) : BaseIterator(Temp)
-		{
-#ifdef DEBUG
-			cout << "rITConstructor:\t" << this << endl;
-#endif // DEBUG
-		}
-		~ReverseIterator()
-		{
-#ifdef DEBUG
-			cout << "rITDestructor:\t" << this << endl;
-#endif // DEBUG
-		}
+		ReverseIterator(Element* Temp = nullptr);
+		~ReverseIterator();
 
-		ReverseIterator& operator++()	//	Prefix increment
-		{
-			BaseIterator::Temp = BaseIterator::Temp->pPrev;
-			return *this;
-		}
+		ReverseIterator& operator++();
 
-		ReverseIterator operator++(int)	//	Postfix increment
-		{
-			ReverseIterator old = *this;
-			BaseIterator::Temp = BaseIterator::Temp->pPrev;
-			return old;
-		}
+		ReverseIterator operator++(int);
 
-		ReverseIterator& operator--()	//	Prefix decrement
-		{
-			BaseIterator::Temp = BaseIterator::Temp->pNext;
-			return *this;
-		}
+		ReverseIterator& operator--();
 
-		ReverseIterator operator--(int)	//	Postfix decrement
-		{
-			ReverseIterator old = *this;
-			BaseIterator::Temp = BaseIterator::Temp->pNext;
-			return old;
-		}
+		ReverseIterator operator--(int);
 
 	};
 
@@ -201,6 +146,7 @@ public:
 
 };
 
+	//	Element	-	methods
 template <typename T> List<T>::Element::Element(T Data, Element* pNext, Element* pPrev)
 {
 	this->Data = Data;
@@ -220,7 +166,7 @@ template <typename T> List<T>::Element::~Element()
 #endif // DEBUG
 }
 
-
+	//	BaseIterator	-	methods
 template <typename T> List<T>::BaseIterator::BaseIterator(Element* Temp) :Temp(Temp)
 {
 #ifdef DEBUG
@@ -255,7 +201,89 @@ template <typename T> T& List<T>::BaseIterator::operator*()
 	return Temp->Data;
 }
 
+	//	Iterator	-	methods
+template <typename T> List<T>::Iterator::Iterator(Element* Temp) : BaseIterator(Temp)
+{
+#ifdef DEBUG
+	cout << "ITConstructor:\t" << this << endl;
+#endif // DEBUG
+}
 
+template <typename T> List<T>::Iterator::~Iterator()
+{
+#ifdef DEBUG
+	cout << "ITDestructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+template <typename T> typename List<T>::Iterator& List<T>::Iterator::operator++()	//	Prefix increment
+{
+	BaseIterator::Temp = BaseIterator::Temp->pNext;
+	return *this;
+}
+
+template <typename T> typename List<T>::Iterator List<T>::Iterator::operator++(int)	//	Postfix increment
+{
+	Iterator old = *this;
+	BaseIterator::Temp = BaseIterator::Temp->pNext;
+	return old;
+}
+
+template <typename T> typename List<T>::Iterator& List<T>::Iterator::operator--()	//	Prefix decrement
+{
+	BaseIterator::Temp = BaseIterator::Temp->pPrev;
+	return *this;
+}
+
+template <typename T> typename List<T>::Iterator List<T>::Iterator::operator--(int)	//	Postfix decrement
+{
+	Iterator old = *this;
+	BaseIterator::Temp = BaseIterator::Temp->pPrev;
+	return old;
+}
+
+	//	ReversIterator	-	methods
+template <typename T> List<T>::ReverseIterator::ReverseIterator (Element* Temp) : BaseIterator(Temp)
+{
+#ifdef DEBUG
+	cout << "rITConstructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+template <typename T> List<T>::ReverseIterator::~ReverseIterator()
+{
+#ifdef DEBUG
+	cout << "rITDestructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+template <typename T> typename List<T>::ReverseIterator::ReverseIterator& List<T>::ReverseIterator::operator++()	//	Prefix increment
+{
+	BaseIterator::Temp = BaseIterator::Temp->pPrev;
+	return *this;
+}
+
+template <typename T> typename List<T>::ReverseIterator::ReverseIterator List<T>::ReverseIterator::operator++(int)	//	Postfix increment
+{
+	ReverseIterator old = *this;
+	BaseIterator::Temp = BaseIterator::Temp->pPrev;
+	return old;
+}
+
+template <typename T> typename List<T>::ReverseIterator::ReverseIterator& List<T>::ReverseIterator::operator--()	//	Prefix decrement
+{
+	BaseIterator::Temp = BaseIterator::Temp->pNext;
+	return *this;
+}
+
+template <typename T> typename List<T>::ReverseIterator::ReverseIterator List<T>::ReverseIterator::operator--(int)	//	Postfix decrement
+{
+	ReverseIterator old = *this;
+	BaseIterator::Temp = BaseIterator::Temp->pNext;
+	return old;
+}
+
+	//	List	-	methods
 template <typename T> size_t List<T>::getSize()const
 {
 	return size;
@@ -588,6 +616,7 @@ template<typename T> List<T> operator+(const List<T>& left, const List<T>& right
 	return cat;
 }
 
+	//	main
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -685,6 +714,19 @@ void main()
 	d_list.print();
 	List<string> s_list = { "What","ken","I","do" };
 	for (string i : s_list) cout << i << tab; cout << endl;
+	
+	for (List<string>::Iterator it = s_list.begin(); it != s_list.end(); ++it)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
+
+	for (List<string>::ReverseIterator it = s_list.rbegin(); it != s_list.rend(); ++it)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
+
 #endif // TEMPLATES_CHEK
 
 }
