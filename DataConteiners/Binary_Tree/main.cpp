@@ -75,9 +75,19 @@ protected:
 			return Root->pLeft ? minValue(Root->pLeft) : Root->Data;
 		}
 
+		int minValue()
+		{
+			return minValue(Root);
+		}
+
 		int maxValue(Element* Root)
 		{
 			return Root->pRight ? maxValue(Root->pRight) : Root->Data;
+		}
+
+		int maxValue()
+		{
+			return maxValue(Root);
 		}
 
 		int count(Element* Root)
@@ -91,14 +101,30 @@ protected:
 		
 		}
 
+		int count()
+		{
+			return count(Root);
+		}
+
 		int sum(Element* Root)
 		{
 			return Root ? sum(Root->pLeft) + sum(Root->pRight) + Root->Data: 0 ;
 		}
 
+		int sum()
+		{
+			return sum(Root);
+		}
+
+
 		double avg(Element* Root)
 		{
 			return (double)sum(Root) / count(Root);
+		}
+
+		double avg()
+		{
+			return avg(Root);
 		}
 
 		void insert(int Data, Element* Root)
@@ -138,6 +164,11 @@ protected:
 			}
 		}
 
+		void insert(int Data)
+		{
+			insert(Data, Root);
+		}
+
 		void print(Element* Root)
 		{
 			if (Root == nullptr) return;
@@ -145,6 +176,11 @@ protected:
 			print(Root->pLeft);
 			cout << Root->Data << tab;
 			print(Root->pRight);
+		}
+
+		void print()
+		{
+			print(Root);
 		}
 
 };
@@ -215,8 +251,20 @@ void main()
 	cout << "Минимальное значение в дереве: " << tree.minValue(tree.getRoot ()) << endl;
 	cout << "Максимальное значение в дереве: " << tree.maxValue(tree.getRoot ()) << endl;
 	cout << "Количество элементов в дереве: " << tree.count(tree.getRoot()) << endl;
+	cout << endl;
 	cout << "sum: " << tree.sum(tree.getRoot()) << endl;
 	cout << "avg: " << tree.avg(tree.getRoot()) << endl;
+	
+	cout << endl;
+	cout << "\n:: Вызов без передачи корня ::\n";
+	tree.print();
+	cout << endl;
+	cout << "Минимальное значение в дереве: " << tree.minValue() << endl;
+	cout << "Максимальное значение в дереве: " << tree.maxValue() << endl;
+	cout << "Количество элементов в дереве: " << tree.count() << endl;
+	cout << endl;
+	cout << "sum: " << tree.sum() << endl;
+	cout << "avg: " << tree.avg() << endl;
 
 	cout << "\n:: Уникальне дерево ::\n";
 
