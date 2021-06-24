@@ -91,6 +91,11 @@ protected:
 		
 		}
 
+		int sum(Element* Root)
+		{
+			return Root ? sum(Root->pLeft) + sum(Root->pRight) + Root->Data: 0 ;
+		}
+
 		void insert(int Data, Element* Root)
 		{
 			if (this->Root == nullptr)
@@ -205,6 +210,7 @@ void main()
 	cout << "Минимальное значение в дереве: " << tree.minValue(tree.getRoot ()) << endl;
 	cout << "Максимальное значение в дереве: " << tree.maxValue(tree.getRoot ()) << endl;
 	cout << "Количество элементов в дереве: " << tree.count(tree.getRoot()) << endl;
+	cout << "summ: " << tree.sum(tree.getRoot());
 
 	cout << "\n:: Уникальне дерево ::\n";
 
@@ -215,5 +221,6 @@ void main()
 	cout << "Минимальное значение в дереве: " << u_tree.minValue(u_tree.getRoot ()) << endl;
 	cout << "Максимальное значение в дереве: " << u_tree.maxValue(u_tree.getRoot ()) << endl;
 	cout << "Количество элементов в дереве: " << u_tree.count(u_tree.getRoot()) << endl;
+
 
 }
