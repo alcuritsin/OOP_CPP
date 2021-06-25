@@ -8,7 +8,7 @@ using std::cin;
 using std::endl;
 
 #define tab "\t"
-//#define DEBUG
+#define DEBUG
 //	UTF-8-BOM
 //	Windows (CL-RF)
 
@@ -51,12 +51,33 @@ protected:
 #endif // DEBUG
 		}
 
+		Tree(const Tree& other)
+		{
+#ifdef DEBUG
+			cout << "CopyTConstructor:" << tab << this << endl;
+#endif // DEBUG
+			copy(other.Root);
+		}
+
 		~Tree()
 		{
+			clear();
 #ifdef DEBUG
 			cout << "TDestructor:" << tab << this << endl;
 #endif // DEBUG
 		}
+
+		//	Operators:
+		Tree& operator=(const Tree& other)
+		{
+			if (this == &other)return *this;
+			clear(Root);
+			copy(other.Root);
+#ifdef DEBUG
+			cout << "CopyAsignmentTConstructor:" << tab << this << endl;
+#endif // DEBUG
+		}
+
 
 		int minValue() const
 		{
@@ -86,6 +107,12 @@ protected:
 		void insert(int Data)
 		{
 			insert(Data, Root);
+		}
+
+		void clear()
+		{
+			clear(this->Root);
+			this->Root = nullptr;
 		}
 
 		void print() const
@@ -171,6 +198,14 @@ private:
 			}
 		}
 
+		void clear(Element* Root)
+		{
+			if (Root == nullptr) return;
+			clear(Root->pLeft);
+			clear(Root->pRight);
+			delete Root;
+		}
+
 		void print(Element* Root) const
 		{
 			if (Root == nullptr) return;
@@ -178,6 +213,14 @@ private:
 			print(Root->pLeft);
 			cout << Root->Data << tab;
 			print(Root->pRight);
+		}
+
+		void copy(Element* Root)
+		{
+			if (Root == nullptr) return;
+			insert(Root->Data, this->Root);
+			copy(Root->pLeft);
+			copy(Root->pRight);
 		}
 };
 
@@ -278,4 +321,9 @@ void main()
 	cout << "sum: " << u_tree.sum() << endl;
 	cout << "avg: " << u_tree.avg() << endl;
 
+	//Tree tree2 = tree;
+	Tree tree2;
+	tree2 = tree;
+
+	tree2.print();
 }
