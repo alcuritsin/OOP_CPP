@@ -1,4 +1,4 @@
-#pragma warning(disable:4326)
+ï»¿#pragma warning(disable:4326)
 
 #include <iostream>
 using namespace std;
@@ -9,6 +9,8 @@ using std::endl;
 
 #define tab "\t"
 //#define DEBUG
+//	UTF-8-BOM
+//	Windows (CL-RF)
 
 class Tree
 {
@@ -231,7 +233,7 @@ void main()
 	setlocale(LC_ALL, "Russian");
 	
 	int n;
-	cout << "Ââåäèòå ðàçìåð äåðåâà:"; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð´ÐµÑ€ÐµÐ²Ð°:"; cin >> n;
 
 	Tree tree;
 	for (int i = 0; i < n; i++)
@@ -248,33 +250,33 @@ void main()
 	tree.print(tree.getRoot());
 	cout << endl;
 
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.minValue(tree.getRoot ()) << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.maxValue(tree.getRoot ()) << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << tree.count(tree.getRoot()) << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.minValue(tree.getRoot ()) << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.maxValue(tree.getRoot ()) << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.count(tree.getRoot()) << endl;
 	cout << endl;
 	cout << "sum: " << tree.sum(tree.getRoot()) << endl;
 	cout << "avg: " << tree.avg(tree.getRoot()) << endl;
 	
 	cout << endl;
-	cout << "\n:: Âûçîâ áåç ïåðåäà÷è êîðíÿ ::\n";
+	cout << "\n:: Ð’Ñ‹Ð·Ð¾Ð² Ð±ÐµÐ· Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸ ÐºÐ¾Ñ€Ð½Ñ ::\n";
 	tree.print();
 	cout << endl;
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.minValue() << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.maxValue() << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << tree.count() << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.minValue() << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.maxValue() << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.count() << endl;
 	cout << endl;
 	cout << "sum: " << tree.sum() << endl;
 	cout << "avg: " << tree.avg() << endl;
 
-	cout << "\n:: Óíèêàëüíå äåðåâî ::\n";
+	cout << "\n:: Ð£Ð½Ð¸ÐºÐ°Ð»ÑŒÐ½Ðµ Ð´ÐµÑ€ÐµÐ²Ð¾ ::\n";
 
 //	u_tree.insert(-2, u_tree.getRoot());
 	u_tree.print(u_tree.getRoot());
 	cout << endl;
 
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << u_tree.minValue(u_tree.getRoot ()) << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå: " << u_tree.maxValue(u_tree.getRoot ()) << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << u_tree.count(u_tree.getRoot()) << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << u_tree.minValue(u_tree.getRoot ()) << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << u_tree.maxValue(u_tree.getRoot ()) << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << u_tree.count(u_tree.getRoot()) << endl;
 
 
 }
