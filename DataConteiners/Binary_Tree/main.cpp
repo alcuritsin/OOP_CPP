@@ -58,13 +58,44 @@ protected:
 #endif // DEBUG
 		}
 
-		/*Element* maximum(Element* Root)
+		int minValue() const
 		{
-			if (Root == nullptr) return maximum(Root->pRight);
+			return minValue(Root);
+		}
 
-		}*/
+		int maxValue() const
+		{
+			return maxValue(Root);
+		}
 
-		int minValue(Element* Root)
+		int count() const
+		{
+			return count(Root);
+		}
+
+		int sum() const
+		{
+			return sum(Root);
+		}
+
+		double avg() const
+		{
+			return avg(Root);
+		}
+
+		void insert(int Data)
+		{
+			insert(Data, Root);
+		}
+
+		void print() const
+		{
+			print(Root);
+			cout << endl;
+		}
+
+private:
+		int minValue(Element* Root) const
 		{
 			/*if (Root->pLeft == nullptr)
 			{
@@ -77,22 +108,12 @@ protected:
 			return Root->pLeft ? minValue(Root->pLeft) : Root->Data;
 		}
 
-		int minValue()
-		{
-			return minValue(Root);
-		}
-
-		int maxValue(Element* Root)
+		int maxValue(Element* Root) const
 		{
 			return Root->pRight ? maxValue(Root->pRight) : Root->Data;
 		}
 
-		int maxValue()
-		{
-			return maxValue(Root);
-		}
-
-		int count(Element* Root)
+		int count(Element* Root) const
 		{	
 			
 			/*if (!Root) return 0;
@@ -103,30 +124,14 @@ protected:
 		
 		}
 
-		int count()
-		{
-			return count(Root);
-		}
-
-		int sum(Element* Root)
+		int sum(Element* Root) const
 		{
 			return Root ? sum(Root->pLeft) + sum(Root->pRight) + Root->Data: 0 ;
 		}
 
-		int sum()
-		{
-			return sum(Root);
-		}
-
-
-		double avg(Element* Root)
+		double avg(Element* Root) const
 		{
 			return (double)sum(Root) / count(Root);
-		}
-
-		double avg()
-		{
-			return avg(Root);
 		}
 
 		void insert(int Data, Element* Root)
@@ -166,12 +171,7 @@ protected:
 			}
 		}
 
-		void insert(int Data)
-		{
-			insert(Data, Root);
-		}
-
-		void print(Element* Root)
+		void print(Element* Root) const
 		{
 			if (Root == nullptr) return;
 
@@ -179,17 +179,11 @@ protected:
 			cout << Root->Data << tab;
 			print(Root->pRight);
 		}
-
-		void print()
-		{
-			print(Root);
-		}
-
 };
 
 class UniqueTree : public Tree
 {
-public:
+private:
 	void insert(int Data, Element* Root)
 	{
 		if (this->Root == nullptr)
@@ -226,6 +220,11 @@ public:
 
 		}
 	}
+public:
+	void insert(int Data)
+	{
+		insert(Data,this->Root);
+	}
 };
 
 void main()
@@ -238,29 +237,27 @@ void main()
 	Tree tree;
 	for (int i = 0; i < n; i++)
 	{
-		tree.insert(rand()%100,tree.getRoot());
+		tree.insert(rand()%100);
 	}
 	UniqueTree u_tree;
 	for (int i = 0; i < n; i++)
 	{
-		u_tree.insert(rand()%100, u_tree.getRoot());
+		u_tree.insert(rand()%100);
 	}
 
 //	tree.insert(-2, tree.getRoot());
-	tree.print(tree.getRoot());
-	cout << endl;
+	tree.print();
 
-	cout << "Минимальное значение в дереве: " << tree.minValue(tree.getRoot ()) << endl;
-	cout << "Максимальное значение в дереве: " << tree.maxValue(tree.getRoot ()) << endl;
-	cout << "Количество элементов в дереве: " << tree.count(tree.getRoot()) << endl;
+	cout << "Минимальное значение в дереве: " << tree.minValue() << endl;
+	cout << "Максимальное значение в дереве: " << tree.maxValue() << endl;
+	cout << "Количество элементов в дереве: " << tree.count() << endl;
 	cout << endl;
-	cout << "sum: " << tree.sum(tree.getRoot()) << endl;
-	cout << "avg: " << tree.avg(tree.getRoot()) << endl;
+	cout << "sum: " << tree.sum() << endl;
+	cout << "avg: " << tree.avg() << endl;
 	
 	cout << endl;
 	cout << "\n:: Вызов без передачи корня ::\n";
 	tree.print();
-	cout << endl;
 	cout << "Минимальное значение в дереве: " << tree.minValue() << endl;
 	cout << "Максимальное значение в дереве: " << tree.maxValue() << endl;
 	cout << "Количество элементов в дереве: " << tree.count() << endl;
@@ -271,12 +268,14 @@ void main()
 	cout << "\n:: Уникальне дерево ::\n";
 
 //	u_tree.insert(-2, u_tree.getRoot());
-	u_tree.print(u_tree.getRoot());
+	u_tree.print();
 	cout << endl;
 
-	cout << "Минимальное значение в дереве: " << u_tree.minValue(u_tree.getRoot ()) << endl;
-	cout << "Максимальное значение в дереве: " << u_tree.maxValue(u_tree.getRoot ()) << endl;
-	cout << "Количество элементов в дереве: " << u_tree.count(u_tree.getRoot()) << endl;
-
+	cout << "Минимальное значение в дереве: " << u_tree.minValue() << endl;
+	cout << "Максимальное значение в дереве: " << u_tree.maxValue() << endl;
+	cout << "Количество элементов в дереве: " << u_tree.count() << endl;
+	cout << endl;
+	cout << "sum: " << u_tree.sum() << endl;
+	cout << "avg: " << u_tree.avg() << endl;
 
 }
