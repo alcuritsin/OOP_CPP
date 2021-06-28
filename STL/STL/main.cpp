@@ -12,13 +12,22 @@ using std::endl;
 
 //#define STL_ARRAY
 #define STL_VECTOR
-#define EXEPTIONS_IN_VECTOR
+//#define EXEPTIONS_IN_VECTOR
 
 template<typename T> void vector_properties(const std::vector<T>& vec)
 {
 	cout << "Size:     " << vec.size() << endl;				//	Размер.
 	cout << "Capasity: " << vec.capacity() << endl;		//	Вместительность - сколько элементов может вместить в себя вектор, без переопределения памяти.
 	cout << "MaxSize:  " << vec.max_size() << endl;		//	Максимальный размер
+}
+
+template<typename T> void vector_print(const std::vector<T>& vec)
+{
+	for (typename std::vector<T>::const_iterator it = vec.begin(); it != vec.end(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
 }
 
 void main()
@@ -40,7 +49,7 @@ void main()
 
 #ifdef STL_VECTOR
 	// Vector - это контейнер, который хранит данные в виде динамического массива.
-	std::vector<double> vec = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 };
+	std::vector<int> vec = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 };
 
 	vector_properties(vec);
 
@@ -73,8 +82,9 @@ void main()
 	{
 		std::cerr << "Error: " << e << endl;
 	}
-#endif // EX
+#endif // EXEPTIONS_IN_VECTOR
 
+	vector_print(vec);
 
 #endif // STL_VECTOR
 
