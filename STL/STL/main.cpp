@@ -41,6 +41,33 @@ template <typename T> void vector_reverse_print(const std::vector<T>& vec)
 	cout << endl;
 }
 
+template<typename T> void vector_insert(std::vector<T>& vec, int index, T data)
+{
+	//	Добавить значение в вектор по индексу.
+	//	Индекс и значение вводятся с клавиатуры.
+	
+	////	C++98
+	//if (index > vec.size())
+	//{
+	//	vec.push_back(data);
+	//}
+	//else
+	//{
+	//	vec.insert(vec.begin() + index, data);
+	//}
+
+	//	Более эффективный метод!
+	//	>= C++11
+	if (index > vec.size())
+	{
+		vec.emplace_back(data);
+	}
+	else
+	{
+		vec.emplace(vec.begin()+index, data);
+	}
+}
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -92,12 +119,22 @@ void main()
 	catch (int e)
 	{
 		std::cerr << "Error: " << e << endl;
-	}
+}
 #endif // EXEPTIONS_IN_VECTOR
 
 	vector_print(vec);
 	cout << "Revers:\n";
 	vector_reverse_print(vec);
+
+	vector_properties(vec);
+	int data; int index;
+	cout << "Индекс вставки: "; cin >> index;
+	cout << "Значение для вставки: "; cin >> data;
+	vector_insert(vec, index, data);
+
+	vector_print(vec);
+	vector_properties(vec);
+
 #endif // STL_VECTOR
 
 }
