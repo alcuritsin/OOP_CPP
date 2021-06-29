@@ -30,6 +30,17 @@ template<typename T> void vector_print(const std::vector<T>& vec)
 	cout << endl;
 }
 
+template <typename T> void vector_reverse_print(const std::vector<T>& vec)
+{
+	//	Написать функцию vector_reverse_print(...),
+	//	которая будет выводить ветктор в обратном порядке.
+	for (typename std::vector<T>::const_reverse_iterator it = vec.crbegin(); it != vec.crend(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
+}
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -85,9 +96,24 @@ void main()
 #endif // EXEPTIONS_IN_VECTOR
 
 	vector_print(vec);
-
+	cout << "Revers:\n";
+	vector_reverse_print(vec);
 #endif // STL_VECTOR
 
-
-
 }
+
+//Signature - подпись
+/*
+-----------------------------------------------------
+|                                                   |
+|   "Компьютерная академия ШАГ"                     |
+|   Курс: PD_011                                    |
+|   Предмет: Объектно-ориентированное программиро-  |
+|            вание с использованием языка C++       |
+|                                                   |
+|   Исполнитель: Курицын Алексей                    |
+|   Преподаватель: Ковтун Олег                      |
+|                                                   |
+|   Екатеринбург - 2021                             |
+|                                                   |
+-----------------------------------------------------*/
