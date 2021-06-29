@@ -62,9 +62,26 @@ template<typename T> void vector_insert(std::vector<T>& vec, int index, T data)
 	{
 		vec.emplace_back(data);
 	}
+	else if (index < 0)
+	{
+		return;
+	}
 	else
 	{
 		vec.emplace(vec.begin()+index, data);
+	}
+}
+
+template<typename T> void vector_erase(std::vector<T>& vec, int index)
+{
+	//	Удалить значение из вектора по указанному индексу, введенному с клавиатуры.
+	if (index > vec.size() || index < 0)
+	{
+		return;
+	}
+	else
+	{
+		vec.erase(vec.begin() + index);
 	}
 }
 
@@ -134,9 +151,12 @@ void main()
 
 	vector_print(vec);
 	vector_properties(vec);
+	cout << "Индекс для удаления: "; cin >> index;
+	vector_erase(vec, index);
+	vector_print(vec);
+	vector_properties(vec);
 
 #endif // STL_VECTOR
-
 }
 
 //Signature - подпись
