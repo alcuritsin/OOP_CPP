@@ -148,12 +148,23 @@ void main()
 	cout << "Индекс вставки: "; cin >> index;
 	cout << "Значение для вставки: "; cin >> data;
 	vector_insert(vec, index, data);
+	
+	/*std::vector<int>::iterator position = vec.begin() + index;
+	vec.insert(position, data);*/
 
 	vector_print(vec);
 	vector_properties(vec);
 	cout << "Индекс для удаления: "; cin >> index;
+	//vec.erase(vec.begin() + index);
 	vector_erase(vec, index);
 	vector_print(vec);
+	vector_properties(vec);
+
+	vector_properties(vec);
+	vec.assign({ 1024,2048,3072 });
+	vector_print(vec);
+	vector_properties(vec);
+	vec.shrink_to_fit();
 	vector_properties(vec);
 
 #endif // STL_VECTOR
