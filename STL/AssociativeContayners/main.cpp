@@ -2,6 +2,7 @@
 #include<map>
 #include<unordered_map>
 #include<string>
+#include<list>
 
 //using namespace std;
 
@@ -12,6 +13,7 @@ using std::cin;
 using std::endl;
 
 //#define STL_MAP
+#define DICTIONARY
 
 void main()
 {
@@ -105,4 +107,27 @@ void main()
 	}
 
 #endif // STL_MAP
+
+#ifdef DICTIONARY
+	std::map<std::string, std::list<std::string>> dictionary =
+	{
+		std::pair<std::string, std::list<std::string>>("Hello", {"Привет", "Здравствуйте"}),
+		std::pair<std::string, std::list<std::string>>("Space", {"Космос", "Пространство", "Пробел"}),
+		std::pair<std::string, std::list<std::string>>("Definition", {"Определение"}),
+		std::pair<std::string, std::list<std::string>>("Claim", {"Требовать", "Заявлять о своих правах"}),
+		std::pair<std::string, std::list<std::string>>("Tie", {"Лента", "Галстуг"})
+	};
+
+	for (std::map<std::string, std::list<std::string>>::iterator it = dictionary.begin(); it != dictionary.end(); it++)
+	{
+		cout << it->first << " : ";
+		for (std::list<std::string>::iterator ij = it->second.begin(); ij != it->second.end(); ij++)
+		{
+			cout << *ij << ", ";
+		}
+		cout << endl;
+	}
+
+#endif // DICTIONARY
+
 }
