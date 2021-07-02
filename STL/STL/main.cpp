@@ -1,6 +1,7 @@
 ﻿#include<iostream>
 #include<array>
 #include<vector>
+#include<list>
 
 //using namespace std;
 
@@ -11,8 +12,9 @@ using std::endl;
 #define tab "\t"
 
 //#define STL_ARRAY
-#define STL_VECTOR
+//#define STL_VECTOR
 //#define EXEPTIONS_IN_VECTOR
+#define STL_LIST
 
 template<typename T> void vector_properties(const std::vector<T>& vec)
 {
@@ -83,6 +85,16 @@ template<typename T> void vector_erase(std::vector<T>& vec, int index)
 	{
 		vec.erase(vec.begin() + index);
 	}
+}
+
+template<typename T> void list_print(std::list<T>& list)
+{
+	for (typename std::list<T>::const_iterator it = list.begin(); it != list.end(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
+
 }
 
 void main()
@@ -168,6 +180,43 @@ void main()
 	vector_properties(vec);
 
 #endif // STL_VECTOR
+
+#ifdef STL_LIST
+	//	List - это контейнер, который хранит объекты в виде двусвязного списка
+	std::list<int> list = { 3,5,8,13,21 };
+
+	/*for (int i = 0; i < list.size(); i++)
+	{
+		//	Оператор [] - не допустим, потому что он сильно снижает производительность!!!
+		cout << list[i] << tab;
+	}
+	cout << endl;*/
+
+	list_print(list);
+
+	/*std::vector<int> vec = {3,5,8,13,21};
+	cout << "Vsize: " << vec.size() << endl;
+	cout << "Vmax_size: " << vec.max_size() << endl;*/
+
+	cout << "Lsize: " << list.size() << endl;
+	cout << "Lmax_size: " << list.max_size() << endl;
+
+	int data; int index;
+	cout << "Индекс вставки: "; cin >> index;
+	cout << "Значение для вставки: "; cin >> data;
+	std::list<int>::iterator it;
+
+	it = list.begin();
+	for (int  i = 0; i < index; i++)
+	{
+		it++;
+	}
+
+	list.insert(it, data);
+	list_print(list);
+
+#endif // STL_LIST
+
 }
 
 //Signature - подпись
