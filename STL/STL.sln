@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssociativeContayners", "As
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoadPolice", "RoadPolice\RoadPolice.vcxproj", "{134B5DB5-20D3-46BB-8604-8E3CB789596A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Police", "Police\Police.vcxproj", "{9797AD6F-329C-4014-9785-0EEA030D861E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{134B5DB5-20D3-46BB-8604-8E3CB789596A}.Release|x64.Build.0 = Release|x64
 		{134B5DB5-20D3-46BB-8604-8E3CB789596A}.Release|x86.ActiveCfg = Release|Win32
 		{134B5DB5-20D3-46BB-8604-8E3CB789596A}.Release|x86.Build.0 = Release|Win32
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Debug|x64.ActiveCfg = Debug|x64
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Debug|x64.Build.0 = Debug|x64
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Debug|x86.Build.0 = Debug|Win32
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Release|x64.ActiveCfg = Release|x64
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Release|x64.Build.0 = Release|x64
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Release|x86.ActiveCfg = Release|Win32
+		{9797AD6F-329C-4014-9785-0EEA030D861E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
