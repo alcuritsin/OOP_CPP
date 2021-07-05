@@ -4,6 +4,7 @@
 #include<string>
 #include<vector>
 #include<fstream>
+#include<Windows.h>
 
 using std::cout;
 using std::cin;
@@ -11,7 +12,7 @@ using std::endl;
 
 const std::string base_file = "receipt.db";
 
-	//	CSV
+//	CSV
 void ReadCSVFile(std::vector <std::vector <std::string>>& v, std::string FileName, std::string FolderPath = "", char sep = ';');
 void WriteCSVFile(const std::vector <std::vector <std::string>>& v, std::string FileName, std::string FolderPath = "", char sep = ';');
 
@@ -35,67 +36,67 @@ public:
 	~BaseReceipt();
 
 	//	Methods:
-void NewRecept(const std::string& vehicle_number, const std::string receipt)
-{
-	if (base.find(vehicle_number) != base.end())
+	void NewRecept(const std::string& vehicle_number, const std::string receipt)
 	{
-		//	Если Номер ТС обнаружен в базе, то добавляем только штраф
-		base[vehicle_number].push_back(receipt);
-	}
-	else
-	{
-		// Иначе добавляем новый номер ТС, и добавляем к нему штраф
-		base.insert(std::pair<std::string, std::list<std::string>>(vehicle_number, { receipt }));
-	}
-}
-
-void ReadBase()
-{
-
-	std::vector <std::vector <std::string>> vec;
-	//	Прочитать файл базы данных. Данные поместить во временный вектор vec.
-	ReadCSVFile(vec, base_file);
-
-	for (int row = 0; row < vec.size(); row++)
-	{
-		//	Бежим по строкам
-		//	Считываем данные в память.
-		NewRecept(vec[row][0], vec[row][1]);
-	}
-
-}
-void WriteBase()
-{
-	//	Пробежать по строчкам и вывести в файл новое состояние базы...
-
-}
-
-void Print()
-{
-	for (std::map<std::string, std::list<std::string>>::iterator it = base.begin(); it != base.end(); it++)
-	{
-		cout << it->first << " : ";
-		for (std::list<std::string>::iterator ij = it->second.begin(); ij != it->second.end(); ij++)
+		if (base.find(vehicle_number) != base.end())
 		{
-			cout << *ij << "\t";
+			//	Если Номер ТС обнаружен в базе, то добавляем только штраф
+			base[vehicle_number].push_back(receipt);
 		}
-		cout << endl;
+		else
+		{
+			// Иначе добавляем новый номер ТС, и добавляем к нему штраф
+			base.insert(std::pair<std::string, std::list<std::string>>(vehicle_number, { receipt }));
+		}
 	}
 
-}
+	void ReadBase()
+	{
 
-void PrintByNumber(const std::string vehicle_number)
-{
-	//	Проверить наличие записи по ноеру ТС.
-	//	Если совпадает выводим все штрафы по номеру.
+		std::vector <std::vector <std::string>> vec;
+		//	Прочитать файл базы данных. Данные поместить во временный вектор vec.
+		ReadCSVFile(vec, base_file);
 
-	//	Если нет выводим штрафов не обнаружено.
-}
+		for (int row = 0; row < vec.size(); row++)
+		{
+			//	Бежим по строкам
+			//	Считываем данные в память.
+			NewRecept(vec[row][0], vec[row][1]);
+		}
 
-void PrintRange(const std::string& begin_vehicle_number, const std::string& end_vehicle_number)
-{
-	// Тут пока не придумал даже....
-}
+	}
+	void WriteBase()
+	{
+		//	Пробежать по строчкам и вывести в файл новое состояние базы...
+
+	}
+
+	void Print()
+	{
+		for (std::map<std::string, std::list<std::string>>::iterator it = base.begin(); it != base.end(); it++)
+		{
+			cout << it->first << " : ";
+			for (std::list<std::string>::iterator ij = it->second.begin(); ij != it->second.end(); ij++)
+			{
+				cout << *ij << "\t";
+			}
+			cout << endl;
+		}
+
+	}
+
+	void PrintByNumber(const std::string vehicle_number)
+	{
+		//	Проверить наличие записи по ноеру ТС.
+		//	Если совпадает выводим все штрафы по номеру.
+
+		//	Если нет выводим штрафов не обнаружено.
+	}
+
+	void PrintRange(const std::string& begin_vehicle_number, const std::string& end_vehicle_number)
+	{
+		// Тут пока не придумал даже....
+	}
 private:
 
 };
@@ -109,7 +110,7 @@ BaseReceipt::~BaseReceipt()
 }
 
 
-	//	CSV
+//	CSV
 void ReadCSVFile(std::vector <std::vector <std::string>>& v, std::string FileName, std::string FolderPath, char sep)
 {
 	///	<status> DONE </status>
@@ -443,31 +444,34 @@ std::string QuotingCSV(const std::string& str, char sep)
 void main()
 {
 	setlocale(LC_ALL, "Russian");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 
 	BaseReceipt base;
 	//base.ReadBase();	//	Выгрузить базу в память.
 
 	//	Ввод штрафа:
-	
-	
-	
-	
-	
-	//for (int i = 0; i < 3; i++)
-	{
-	std::string vehicle_number;	//	Номер транспортного средства
-	std::string receipt; //	Квитанция
-	cout << ":: Новый штраф ::" << endl;
-	cout << "Номер ТС: "; cin >> vehicle_number;
-	cout << "   Штраф: "; cin >> receipt;
 
-	base.NewRecept(vehicle_number, receipt);
+
+
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		std::string vehicle_number;	//	Номер транспортного средства
+		std::string receipt; //	Квитанция
+		cout << ":: Новый штраф ::" << endl;
+		cout << "Номер ТС: "; getline(cin, vehicle_number);//cin >> vehicle_number;
+		//cin.ignore();
+		cout << "   Штраф: "; getline(cin, receipt);//cin >> receipt;
+
+		base.NewRecept(vehicle_number, receipt);
 	}
 
 	base.Print();	//	Вывод Всей базы..
 
 	//base.WriteBase();	// Произвести запись нового состояния базы в память. Перед выходом.
-	
+
 }
 
 /*
@@ -483,4 +487,21 @@ void main()
 ■ Распечатка данных по заданному номеру;
 ■ Распечатка данных по диапазону номеров;
 ■ Сохраняйте и загружайте информацию из файла
+*/
+
+/*
+Класс правонарушение
+Дата
+ID_Авто
+Фио_Нарушителя
+Место проишествия
+Проишествие
+
+
+ЛоадБАсе
+СейвБАзе
+Инсерт
+
+
+
 */
