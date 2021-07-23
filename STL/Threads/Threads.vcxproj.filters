@@ -19,10 +19,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="DashBoard_Car.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="DashBoard_Car.txt" />
-  </ItemGroup>
 </Project>
